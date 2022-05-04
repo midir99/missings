@@ -19,6 +19,7 @@ from django.utils.translation import gettext_lazy as _
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
     path("", include("docs.urls")),
     path("", include("counters.urls")),
 ]

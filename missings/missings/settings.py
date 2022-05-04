@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
     # Local apps
     "accounts.apps.AccountsConfig",
     "docs.apps.DocsConfig",
@@ -129,6 +130,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -157,17 +161,24 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 SITE_ID = 1
 
 # Django REST Framework
+# https://www.django-rest-framework.org/api-guide/settings/
 
 REST_FRAMEWORK = {
-    # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 15,
     # https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+    ],
+    # https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
     # https://www.django-rest-framework.org/api-guide/renderers/#setting-the-renderers
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+    # https://www.django-rest-framework.org/api-guide/pagination/#setting-the-pagination-style
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 15,
 }

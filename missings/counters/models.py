@@ -33,6 +33,12 @@ class MissingPersonPost(models.Model):
         null=True,
         help_text=_("Please enter the height in centimeters of the missing person."),
     )
+    mp_weight = models.PositiveSmallIntegerField(
+        _("missing person's weight"),
+        blank=True,
+        null=True,
+        help_text=_("Please enter the weight in kilograms of the missing person."),
+    )
     mp_physical_build = models.CharField(
         _("missing person's physical build"),
         choices=choices.PhysicalBuildChoices.choices,
@@ -59,6 +65,14 @@ class MissingPersonPost(models.Model):
         blank=True,
         null=True,
         help_text=_("Please enter the date of birth of the missing person."),
+    )
+    mp_age_when_disappeared = models.SmallIntegerField(
+        _("missing person's age when disappeared"),
+        blank=True,
+        null=True,
+        help_text=_(
+            "Please enter the age the missing person had when they disappeared."
+        ),
     )
     mp_eyes_description = models.CharField(
         _("missing person's eyes description"),
@@ -111,6 +125,15 @@ class MissingPersonPost(models.Model):
         _("has been found?"),
         default=False,
         help_text=_("Please enter whether the missing person has been found or not."),
+    )
+    alert_type = models.CharField(
+        ("alert type"),
+        choices=choices.AlertType.choices,
+        max_length=2,
+        blank=True,
+        help_text=_(
+            "Please enter the alert or protocol type of this missing person post."
+        ),
     )
     po_state = models.CharField(
         _("prosecutor's office state"),
