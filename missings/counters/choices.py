@@ -36,6 +36,43 @@ class StateChoices(models.TextChoices):
     YUCATAN = ("MX-YUC", _("Yucatan"))
     ZACATECAS = ("MX-ZAC", _("Zacatecas"))
 
+    @classmethod
+    def from_abbr(cls, abbr):
+        return {
+            "cdmx": cls.CIUDAD_DE_MEXICO,
+            "ags": cls.AGUASCALIENTES,
+            "bc": cls.BAJA_CALIFORNIA,
+            "bcs": cls.BAJA_CALIFORNIA_SUR,
+            "camp": cls.CAMPECHE,
+            "coah": cls.COAHUILA_DE_ZARAGOZA,
+            "col": cls.COLIMA,
+            "chis": cls.CHIAPAS,
+            "chih": cls.CHIHUAHUA,
+            "dgo": cls.DURANGO,
+            "gto": cls.GUANAJUATO,
+            "gro": cls.GUERRERO,
+            "hgo": cls.HIDALGO,
+            "jal": cls.JALISCO,
+            "edomex": cls.MEXICO,
+            "mich": cls.MICHOACAN_DE_OCAMPO,
+            "mor": cls.MORELOS,
+            "nay": cls.NAYARIT,
+            "nl": cls.NUEVO_LEON,
+            "oax": cls.OAXACA,
+            "pue": cls.PUEBLA,
+            "qro": cls.QUERETARO,
+            "qroo": cls.QUINTANA_ROO,
+            "slp": cls.SAN_LUIS_POTOSI,
+            "sin": cls.SINALOA,
+            "son": cls.SONORA,
+            "tab": cls.TABASCO,
+            "tamps": cls.TAMAULIPAS,
+            "tlax": cls.TLAXCALA,
+            "ver": cls.VERACRUZ_DE_IGNACIO_DE_LA_LLAVE,
+            "yuc": cls.YUCATAN,
+            "zac": cls.ZACATECAS,
+        }.get(abbr)
+
 
 class PhysicalBuildChoices(models.TextChoices):
     SLIM = ("S", _("Slim"))
@@ -61,3 +98,4 @@ class AlertType(models.TextChoices):
     ALBA = ("AL", _("Alba"))
     AMBER = ("AM", _("Amber"))
     ODISEA = ("OD", _("Odisea"))
+    OTHER = ("OT", _("Other"))

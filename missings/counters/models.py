@@ -4,11 +4,11 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from . import choices
+from . import choices, managers
 
 
 class MissingPersonPost(models.Model):
-    """Represents a missing person's poster."""
+    """Represents a missing person's post."""
 
     id = models.UUIDField(
         primary_key=True,
@@ -175,6 +175,8 @@ class MissingPersonPost(models.Model):
             "person on it."
         ),
     )
+
+    objects = managers.MissingPersonPostManager()
 
     class Meta:
         verbose_name = _("missing person post")
