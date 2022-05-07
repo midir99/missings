@@ -128,7 +128,7 @@ class MissingPersonPost(models.Model):
     )
     alert_type = models.CharField(
         ("alert type"),
-        choices=choices.AlertType.choices,
+        choices=choices.AlertTypeChoices.choices,
         max_length=2,
         blank=True,
         help_text=_(

@@ -1,92 +1,119 @@
 {% extends "base.html" %}
 
-{% load counters_extras i18n static %}
-
 {% block main %}
+
 <div class="wrapper">
     <div class="wrap">
         <article class="big-sticky-post">
             <div class="post-meta">
                 <span class="post-date">
-                    {% translate "All time" %}
+                    Mar 01, 2017
                 </span>
                 <span class="post-category">
-                    <a href="#">{% translate "Today" %}</a>
+                    <a href="#">Life style</a>
                 </span>
             </div>
             <div class="post-thumb">
                 <a href="single-fullwidth-three-column.html">
-                    <img alt="" src="{% static "images/s5.jpg" %}"/>
+                    <img alt="" src="images/s5.jpg" />
                 </a>
             </div>
             <h1>
                 <a href="single-fullwidth-three-column.html">
-                    {% blocktranslate with state_label=state.label %}
-                    There are {{ mpp_count }} missing in {{ state_label }}
-                    {% endblocktranslate %}
-                    {% comment %}TODO: ERASE_ME
-                    Van 892 desaparecidos en Morelos
-                    {% endcomment %}
+                    First Special News Here!
                 </a>
             </h1>
             <div class="post-des">
-                <p>
-                    {% blocktranslate with state_label=state.label %}
-                    This website counts how many people have been reported missing in {{ state_label }} in total, <b>the
-                    counter updates every 15 minutes</b>, so you can come back later to see if the count has increased.
-                    <b>How does it work?</b> A bot visits the state prosecutor's office website, then extracts the
-                    missing person posters and saves them in a database, this bot runs every few minutes, so it's
-                    possible the next time you open this page you see new data. You can check the FAQ section to find
-                    more information about this, or you can check the ABOUT ME section to know more about me.
-                    {% endblocktranslate %}
-                </p>
+                <p>Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Sed porttitor lectus nibh. Sed porttitor lectus nibh. </p>
             </div>
         </article>
 
         <!--hightlight news-->
         <div class="tag-news-caption">
-            <p class="fixtext">  #{% translate "Latest cases" %}</p>
+            <p class="fixtext">  #HIGHLIGHTS news</p>
         </div>
         <div class="tags-three">
-            {% for mpp_list in lastest_mpp_lists %}
-                <div class="row">
-                    {% for mpp in mpp_list %}
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <article class="ciz-post">
-                                <div class="post-thumb">
-                                    <a href="single-gallery.html">
-                                        <img
-                                            alt="{% translate "{{ mpp.mp_name }}" %}"
-                                            src="{{ mpp.po_poster_url }}"
-                                        >
-                                    </a>
-                                </div>
-                                <h3 class="post-title">
-                                    <a href="single-gallery.html">{{ mpp.mp_name|truncatechars:25 }}</a>
-                                </h3>
-                                <div class="post-meta">
-                                    <span class="post-date">
-                                        {{ mpp.loss_date }}
-                                    </span>
-                                    {% if mpp.missing_from %}
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">{{ mpp.missing_from|truncatechars:35 }}</a>
-                                        </span>
-                                    {% endif %}
-                                </div>
-                                <div class="post-des">
-                                    <p>{{ mpp.circumstances_behind_dissapearance|default:_("No details about circumstances behind dissapearance.")|truncatechars:105 }}</p>
-                                </div>
-                            </article>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% empty %}
             <div class="row">
-                <h2>{% translate "No posts available." %}</h2>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <article class="ciz-post">
+                        <div class="post-thumb">
+                            <a href="single-gallery.html">
+                                <span class="post-format">
+                                    <i class="fa fa-camera"></i>
+                                </span>
+                                <img alt="" src="images/s3.jpg" />
+                            </a>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="single-gallery.html">City in the sunshine. </a>
+                        </h3>
+                        <div class="post-meta">
+                            <span class="post-date">
+                                Mar 01, 2017
+                            </span>
+                            <em>/</em>
+                            <span class="post-category">
+                                <a href="#">Life style</a>
+                            </span>
+                        </div>
+                        <div class="post-des">
+                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <article class="ciz-post">
+                        <div class="post-thumb">
+                            <a href="single-video.html">
+                                <span class="post-format">
+                                    <i class="fa fa-video-camera"></i>
+                                </span>
+                                <img alt="" src="images/w1.jpg" />
+                            </a>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="single-video.html">Simply dummy text</a>
+                        </h3>
+                        <div class="post-meta">
+
+                            <span class="post-date">
+                                Mar 01, 2017
+                            </span>
+                            <em>/</em>
+                            <span class="post-category">
+                                <a href="#">Life style</a>
+                            </span>
+                        </div>
+                        <div class="post-des">
+                            <p>Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <article class="ciz-post">
+                        <div class="post-thumb">
+                            <a href="single.html">
+                                <img alt="" src="images/s1.jpg" />
+                            </a>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="single.html">My writing here.</a>
+                        </h3>
+                        <div class="post-meta">
+                            <span class="post-date">
+                                Mar 01, 2017
+                            </span>
+                            <em>/</em>
+                            <span class="post-category">
+                                <a href="#">Life style</a>
+                            </span>
+                        </div>
+                        <div class="post-des">
+                            <p>Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec rutrum congue leo eget malesuada. </p>
+                        </div>
+                    </article>
+                </div>
             </div>
-            {% endfor %}
         </div>
         <!--cols-->
         <div class="cols">
@@ -95,25 +122,33 @@
                 <!--box-category-->
                 <div class="box-category">
                     <div class="col-caption">
-                        <span>{% translate "Missings classified by sex" %}</span>
+                        <span>Photography</span>
                     </div>
                     <article class="category-big-post">
                         <div class="post-thumb">
                             <a href="single-audio.html">
-                                <img alt="" src="{% static "svg/woman-man.svg" %}" />
+                                <span class="post-format">
+                                    <i class="fa fa-music"></i>
+                                </span>
+                                <img alt="" src="images/p3.jpg" />
                             </a>
                         </div>
-
+                        <h2 class="post-title">
+                            <a href="single-audio.html">
+                                Simply dummy text
+                            </a>
+                        </h2>
+                        <div class="post-meta">
+                            <span class="post-date">
+                                Mar 01, 2017
+                            </span>
+                            <em>/</em>
+                            <span class="post-category">
+                                <a href="#">Super User</a>
+                            </span>
+                        </div>
                         <div class="post-des  dropcap">
-                            <p>
-                                {% blocktranslate %}
-                                Here you can check the count of all the posters of missing people classified as
-                                <b><i>female</i></b>, <b><i>male</i></b> or <b><i>other</i></b>. Some posters determined
-                                as <b><i>other</i></b> may correspond to <b><i>females</i></b> or <b><i>males</i></b>
-                                but were issued as <b><i>other</i></b> due to an error in the automatic classification
-                                process.
-                                {% endblocktranslate %}
-                            </p>
+                            <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Nulla quis lorem ut libero malesuada feugiat. </p>
                         </div>
                     </article>
 
@@ -123,12 +158,12 @@
                                 <article class="three-item">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "svg/missing-woman.svg" %}" />
+                                            <img alt="" src="images/p1.jpg" />
                                         </a>
                                     </div>
-                                    <h3 class="text-center">
+                                    <h3>
                                         <a href="single.html">
-                                            {{ missing_female_count|humanint }} {% translate "women missing" %}
+                                            Simply dummy text
                                         </a>
                                     </h3>
                                 </article>
@@ -137,12 +172,12 @@
                                 <article class="three-item">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "svg/missing-man.svg" %}">
+                                            <img alt="" src="images/p4.jpg" />
                                         </a>
                                     </div>
-                                    <h3 class="text-center">
+                                    <h3>
                                         <a href="single.html">
-                                            {{ missing_male_count|humanint }} {% translate "missing men" %}
+                                            Proin eget tortor risus.
                                         </a>
                                     </h3>
                                 </article>
@@ -151,12 +186,12 @@
                                 <article class="three-item">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" style="color; #222;" src="{% static "svg/missing-unknown.svg" %}" />
+                                            <img alt="" src="images/p7.jpg" />
                                         </a>
                                     </div>
-                                    <h3 class="text-center">
+                                    <h3>
                                         <a href="single.html">
-                                            {{ missing_other_count|humanint }} {% translate "missing other" %}
+                                            Maecenas semper ante sed.
                                         </a>
                                     </h3>
                                 </article>
@@ -175,7 +210,7 @@
                             <article class="category-mid-post">
                                 <div class="post-thumb">
                                     <a href="single-fullwidth.html">
-                                        <img alt="" src="{% static "images/s7.jpg" %}" />
+                                        <img alt="" src="images/s7.jpg" />
                                     </a>
                                 </div>
                                 <h2 class="post-title">
@@ -202,7 +237,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}" />
+                                            <img alt="" src="images/p2.jpg" />
                                         </a>
                                     </div>
 
@@ -211,7 +246,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p5.jpg" %}" />
+                                            <img alt="" src="images/p5.jpg" />
                                         </a>
                                     </div>
 
@@ -220,7 +255,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p7.jpg" %}" />
+                                            <img alt="" src="images/p7.jpg" />
                                         </a>
                                     </div>
 
@@ -229,7 +264,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/w5.jpg" %}" />
+                                            <img alt="" src="images/w5.jpg" />
                                         </a>
                                     </div>
 
@@ -238,7 +273,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/w7.jpg" %}" />
+                                            <img alt="" src="images/w7.jpg" />
                                         </a>
                                     </div>
 
@@ -269,7 +304,7 @@
                                     <article class="review-item">
                                         <div class="post-thumb">
                                             <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/s2.jpg" %}" />
+                                                <img alt="" src="images/s2.jpg" />
                                             </a>
                                         </div>
                                         <div class="review-des">
@@ -291,7 +326,7 @@
                                     <article class="review-item">
                                         <div class="post-thumb">
                                             <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/s5.jpg" %}" />
+                                                <img alt="" src="images/s5.jpg" />
                                             </a>
                                         </div>
                                         <div class="review-des">
@@ -312,7 +347,7 @@
                                     <article class="review-item">
                                         <div class="post-thumb">
                                             <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/l4.jpg" %}" />
+                                                <img alt="" src="images/l4.jpg" />
                                             </a>
                                         </div>
                                         <div class="review-des">
@@ -348,7 +383,7 @@
                             <div class="category-mid-post">
                                 <div class="post-thumb">
                                     <a href="single-thum-large.html">
-                                        <img alt="" src="{% static 'images/w4.jpg' %}" />
+                                        <img alt="" src="images/w4.jpg" />
                                     </a>
                                 </div>
                             </div>
@@ -380,7 +415,7 @@
                             <div>
                                 <div class="post-thumb">
                                     <a href="single.html">
-                                        <img alt="" src="{% static "images/w1.jpg" %}" />
+                                        <img alt="" src="images/w1.jpg" />
                                     </a>
                                 </div>
 
@@ -391,7 +426,7 @@
                             <div>
                                 <div class="post-thumb">
                                     <a href="single.html">
-                                        <img alt="" src="{% static "images/w2.jpg" %}" />
+                                        <img alt="" src="images/w2.jpg" />
                                     </a>
                                 </div>
 
@@ -402,7 +437,7 @@
                             <div>
                                 <div class="post-thumb">
                                     <a href="single.html">
-                                        <img alt="" src="{% static "images/p5.jpg" %}" />
+                                        <img alt="" src="images/p5.jpg" />
                                     </a>
                                 </div>
 
@@ -413,7 +448,7 @@
                             <div>
                                 <div class="post-thumb">
                                     <a href="single.html">
-                                        <img alt="" src="{% static "images/p7.jpg" %}" />
+                                        <img alt="" src="images/p7.jpg" />
                                     </a>
                                 </div>
                                 <h3 class="post-title"><a href="single.html">What The Font</a> </h3>
@@ -437,7 +472,7 @@
                                             <span class="post-format">
                                                 <i class="fa fa-camera"></i>
                                             </span>
-                                            <img alt="" src="{% static "images/l1.jpg" %}" />
+                                            <img alt="" src="images/l1.jpg" />
                                         </a>
                                     </div>
                                     <h3 class="post-title">
@@ -462,7 +497,7 @@
                                 <article class="ciz-post">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p1.jpg" %}" />
+                                            <img alt="" src="images/p1.jpg" />
                                         </a>
                                     </div>
                                     <h3 class="post-title">
@@ -486,7 +521,7 @@
                                 <article class="ciz-post">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/w1.jpg" %}" />
+                                            <img alt="" src="images/w1.jpg" />
                                         </a>
                                     </div>
                                     <h3 class="post-title">
@@ -511,7 +546,7 @@
                                 <article class="ciz-post">
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/w2.jpg" %}" />
+                                            <img alt="" src="images/w2.jpg" />
                                         </a>
                                     </div>
                                     <h3 class="post-title">
@@ -545,7 +580,7 @@
             <div class="colright">
                 <!--box social-->
                 <div class="col-caption">
-                    <span>{% translate "ALERT COUNT" %}</span>
+                    <span> SOCIAL NETWORK</span>
                 </div>
                 <div class="box-social">
                     <div class="social-network">
@@ -553,71 +588,42 @@
                             <div class="sn-col">
                                 <div class="sn-item">
                                     <div class="sn-icon">
-                                        <i style="color: #ffc252;" class="fa fa-address-card"></i>
+                                        <i class="fa fa-facebook-f"></i>
                                     </div>
-                                    <p>{{ amber_alert_count|humanint }}</p>
-                                    <span>{% translate "AMBER Alerts" %}</span>
+                                    <p>28.3K</p>
+                                    <span>FANS</span>
                                 </div>
                             </div>
                             <div class="sn-col">
                                 <div class="sn-item twitter">
                                     <div class="sn-icon">
-                                        <i style="color: #ad00ad;" class="fa fa-address-card"></i>
+                                        <i class="fa fa-twitter"></i>
                                     </div>
-                                    <p>{{ alba_protocol_count|humanint }}</p>
-                                    <span>{% translate "ALBA Protocols" %}</span>
+                                    <p>18.5K</p>
+                                    <span>FOLLOWERS</span>
                                 </div>
                             </div>
                             <div class="sn-col">
                                 <div class="sn-item pinterest">
                                     <div class="sn-icon">
-                                        <i style="color: #d60000;" class="fa fa-address-card"></i>
+                                        <i class="fa fa-pinterest"></i>
                                     </div>
-                                    <p>{{ odisea_alert_count|humanint }}</p>
-                                    <span>{% translate "Odisea Alerts" %}</span>
+                                    <p>18.5K</p>
+                                    <span>PIN IT</span>
                                 </div>
                             </div>
                             <div class="sn-col">
                                 <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <i class="fa fa-address-card"></i>
+                                        <i class="fa fa-youtube"></i>
                                     </div>
-                                    <p>{{ other_uncategorized_alert_count|humanint }}</p>
-                                    <span>{% translate "Other alerts" %}</span>
+                                    <p>651K</p>
+                                    <span>SUBSCRIBE</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="clearfix">
-                            {% blocktrans %}
-                            These are the total counts of all the alerts that have ever been issued. Alerts are
-                            classified in <b>4</b> categories: <b><i>AMBER alert</i></b>, <b><i>Alba protocol</i></b>,
-                            <b><i>Odisea alert</i></b> and <b><i>Others</i></b>. Some alerts determined as
-                            <b><i>Others</i></b> can actually be <b><i>AMBER</i></b>, <b><i>Alba</i></b> or
-                            <b><i>Odisea</i></b>, but were labeled as <b><i>Others</i></b> because a fail in the
-                            automatic classification process.
-                            {% endblocktrans %}
-                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                </div>
-
-                <!--box post by tags-->
-                <div class="col-caption">
-                    <span>{% translate "COUNTIES WITH MOST MISSING PEOPLE" %}</span>
-                </div>
-                <div class="box-news-by-tags">
-                    <ul>
-                        {% for missing_from in most_common_missing_from_list %}
-                            <li>
-                                <p>
-                                    <a href="single-fullwidth-three-column.html">
-                                        {% blocktranslate with missing_from_county=missing_from.0 missing_count=missing_from.1  %}
-                                        {{ missing_from_county }}, with {{ missing_count }} missing(s)
-                                        {% endblocktranslate %}
-                                    </a>
-                                </p>
-                            </li>
-                        {% endfor %}
-                    </ul>
                 </div>
 
                 <!--box newsletter-->
@@ -639,12 +645,107 @@
                     </div><div class="mc4wp-response"></div>
                 </div>
 
+                <!--box trending-->
+                <div class="col-caption">
+                    <span> TRENDING POSTS</span>
+                </div>
+                <div class="box-trending">
+                    <article class="trending-item">
+                        <div class="post-thumb">
+                            <a href="single-gallery.html">
+                                <span class="post-format">
+                                    <i class="fa fa-camera"></i>
+                                </span>
+                                <img alt="" src="images/s6.jpg">
+                            </a>
+                        </div>
+                        <h3>
+                            <a href="single-gallery.html">
+                                Maecenas semper ante sed lectus egestas.
+                            </a>
+                        </h3>
+                    </article>
+                    <ul class="list-trending">
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="images/l1.jpg">
+                                </a>
+                            </div>
+                            <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
+                        </li>
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="images/l2.jpg">
+                                </a>
+                            </div>
+                            <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
+                        </li>
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="images/p2.jpg">
+                                </a>
+                            </div>
+                            <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
+                        </li>
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="images/p3.jpg">
+                                </a>
+                            </div>
+                            <h3 class="post-title"><a href="single.html">What The Font</a> </h3>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!--box post by tags-->
+                <div class="col-caption">
+                    <span> POST BY TAGS</span>
+                </div>
+                <div class="box-news-by-tags">
+                    <ul>
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">	Maecenas semper ante sed lectus.</a></p>
+                        </li>
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">Magazine in the World.</a></p>
+                        </li>
+
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">	The beautifull girl.</a></p>
+                        </li>
+
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">Old man read the newspaper</a></p>
+                        </li>
+
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">The dark men & shadown</a></p>
+                        </li>
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">	City in the sunshine.</a></p>
+                        </li>
+
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">	Simply dummy text</a></p>
+                        </li>
+
+                        <li>
+                            <p><a href="single-fullwidth-three-column.html">First Special News Here.</a></p>
+                        </li>
+                    </ul>
+                </div>
+
                 <!--box advertisement-->
                 <div class="col-caption">
                     <span> advertisement</span>
                 </div>
                 <div class="box-ads">
-                    <img alt="" src="{% static "images/ads.jpg" %}" />
+                    <img alt="" src="images/ads.jpg" />
                 </div>
                 <!--box tab-->
                 <div class="box-tab">
@@ -674,7 +775,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
+                                            <img alt="" src="images/l1.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -691,7 +792,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
+                                            <img alt="" src="images/l2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -708,7 +809,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
+                                            <img alt="" src="images/p2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -725,7 +826,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
+                                            <img alt="" src="images/p3.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -742,7 +843,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p4.jpg" %}">
+                                            <img alt="" src="images/p4.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -759,7 +860,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
+                                            <img alt="" src="images/l1.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -776,7 +877,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
+                                            <img alt="" src="images/l2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -793,7 +894,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
+                                            <img alt="" src="images/p2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -810,7 +911,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
+                                            <img alt="" src="images/p3.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -831,7 +932,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
+                                            <img alt="" src="images/p2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -848,7 +949,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
+                                            <img alt="" src="images/p3.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -865,7 +966,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
+                                            <img alt="" src="images/l1.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -882,7 +983,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
+                                            <img alt="" src="images/l2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -899,7 +1000,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
+                                            <img alt="" src="images/p2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -916,7 +1017,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
+                                            <img alt="" src="images/p3.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -933,7 +1034,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
+                                            <img alt="" src="images/l1.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -950,7 +1051,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
+                                            <img alt="" src="images/l2.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -968,7 +1069,7 @@
                                 <li>
                                     <div class="post-thumb">
                                         <a href="single.html">
-                                            <img alt="" src="{% static "images/p4.jpg" %}">
+                                            <img alt="" src="images/p4.jpg">
                                         </a>
                                     </div>
                                     <div class="post-meta">
@@ -1251,4 +1352,5 @@
         </div>
     </div>
 </div>
+
 {% endblock main %}

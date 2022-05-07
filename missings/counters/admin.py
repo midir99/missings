@@ -26,6 +26,7 @@ class MissingPersonPostAdmin(admin.ModelAdmin):
         "mp_sex",
         "missing_from",
         "po_state",
+        "po_post_publication_date",
     ]
     ordering = [
         "-po_post_publication_date",

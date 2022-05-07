@@ -52,19 +52,17 @@ urlpatterns = [
         name="mpp-retrieve",
     ),
     # Template views
-    path("", views.HomeView.as_view(), name="home"),
+    path("", views.TotalCounterView.as_view(), name="home"),
     re_path(
-        rf"^(?P<state>{STATE_RE})/$",
-        views.CounterView.as_view(),
-        name="state_counter"
+        rf"^(?P<state>{STATE_RE})/$", views.CounterView.as_view(), name="state_counter"
     ),
     re_path(
-        rf"^(?P<state>{STATE_RE})/(?P<date>{DATE_RE})/$",
+        rf"^(?P<state>{STATE_RE})/(?P<pub_date>{DATE_RE})/$",
         views.DateCounterView.as_view(),
         name="state_date_counter",
     ),
     re_path(
-        rf"^(?P<state>{STATE_RE})/(?P<from>{DATE_RE})/(?P<to>{DATE_RE})/$",
+        rf"^(?P<state>{STATE_RE})/(?P<from_>{DATE_RE})/(?P<to>{DATE_RE})/$",
         views.DateSpanCounterView.as_view(),
         name="state_date_span_counter",
     ),

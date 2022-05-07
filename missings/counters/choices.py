@@ -94,7 +94,7 @@ class SexChoices(models.TextChoices):
     OTHER = ("O", _("Other"))
 
 
-class AlertType(models.TextChoices):
+class AlertTypeChoices(models.TextChoices):
     ALBA = ("AL", _("Alba"))
     AMBER = ("AM", _("Amber"))
     ODISEA = ("OD", _("Odisea"))
