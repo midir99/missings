@@ -3,9 +3,9 @@ from django import forms
 from . import models
 
 
-class MissingPersonPostAdminForm(forms.ModelForm):
+class MissingPersonPosterAdminForm(forms.ModelForm):
     class Meta:
-        model = models.MissingPersonPost
+        model = models.MissingPersonPoster
         fields = "__all__"
         widgets = {
             "mp_eyes_description": forms.Textarea,

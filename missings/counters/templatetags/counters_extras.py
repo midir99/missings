@@ -1,10 +1,11 @@
 from django import template
+from django.templatetags.static import static
 
 register = template.Library()
 
 
 @register.filter(is_safe=True)
-def humanint(value):
+def humanint(number):
     """
     Convert a large integer to a friendly text representation. For example,
     1_000 becomes 1K,
@@ -12,12 +13,20 @@ def humanint(value):
     etc.
     Values up to 10^12 (Trillion) are supported.
     """
-    value = float('{:.3g}'.format(value))
+    number = float("{:.3g}".format(number))
     magnitude = 0
-    while abs(value) >= 1000:
+    while abs(number) >= 1000:
         magnitude += 1
-        value /= 1000.0
-    return '{}{}'.format(
-        '{:f}'.format(value).rstrip('0').rstrip('.'),
-        ['', 'K', 'M', 'B', 'T'][magnitude],
+        number /= 1000.0
+    return "{}{}".format(
+        "{:f}".format(number).rstrip("0").rstrip("."),
+        ["", "K", "M", "B", "T"][magnitude],
     )
+
+
+@register.filter(is_safe=True)
+def statemap(state):
+    """
+    Returns the URL of the state's map image.
+    """
+    return static(f"svg/maps/{state}.svg")

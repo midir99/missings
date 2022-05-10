@@ -1,5 +1,4 @@
-from .iter import take, chunked
-
+from .iter import chunked, take
 
 __all__ = [
     "chunked",

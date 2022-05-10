@@ -16,9 +16,12 @@ def path_params_to_date(**params):
                             pathparamv, params[pathparam]
                         )
                     except ValueError:
-                        raise BadRequest(_("Invalid date: %(date)s") % {
-                            "date": pathparamv,
-                        })
+                        raise BadRequest(
+                            _("Invalid date: %(date)s")
+                            % {
+                                "date": pathparamv,
+                            }
+                        )
 
             return func(request, *args, **kwargs)
 

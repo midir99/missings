@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.functions import Coalesce
 
 
-class MissingPersonPostManager(models.Manager):
+class MissingPersonPosterManager(models.Manager):
     def filter_by_loss_date(
         self, po_state=None, pub_date=None, date_from=None, date_to=None
     ):

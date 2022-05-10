@@ -63,7 +63,7 @@ class Command(BaseCommand):
 
         mpps = map(add_slug, mpps)
         mpps = map(
-            lambda mpp: models.MissingPersonPost(
+            lambda mpp: models.MissingPersonPoster(
                 mp_name=mpp["mp_name"],
                 po_state=mpp["po_state"],
                 po_post_url=mpp["po_post_url"],
@@ -74,7 +74,7 @@ class Command(BaseCommand):
             ),
             mpps,
         )
-        inserted = models.MissingPersonPost.objects.bulk_create(mpps)
+        inserted = models.MissingPersonPoster.objects.bulk_create(mpps)
         count = len(inserted)
         self.stdout.write(
             self.style.SUCCESS(

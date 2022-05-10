@@ -39,12 +39,12 @@ def chunked(iterable, n, strict=False):
     iterator = iter(functools.partial(take, n, iter(iterable)), [])
     if strict:
         if n is None:
-            raise ValueError('n must not be None when using strict mode.')
+            raise ValueError("n must not be None when using strict mode.")
 
         def ret():
             for chunk in iterator:
                 if len(chunk) != n:
-                    raise ValueError('iterable is not divisible by n.')
+                    raise ValueError("iterable is not divisible by n.")
                 yield chunk
 
         return iter(ret())

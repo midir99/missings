@@ -16,26 +16,27 @@
             </div>
             <div class="post-thumb">
                 <a href="single-fullwidth-three-column.html">
-                    <img alt="" src="{% static "images/s5.jpg" %}"/>
+                    <img alt="{% translate "Missing people posters collage." %}" src="{% static "images/collages/mx-mor.png" %}"/>
+                    <div class="main-counter">
+                        <p>
+                            <span class="counter-head">{{ mpp_count }}</span><br>
+                            <span class="counter-sub">
+                                {% blocktranslate with state_label=state.label%}
+                                missing in {{ state_label }}
+                                {% endblocktranslate %}
+                            </span>
+
+                        </p>
+                    </div>
                 </a>
             </div>
-            <h1>
-                <a href="single-fullwidth-three-column.html">
-                    {% blocktranslate with state_label=state.label %}
-                    There are {{ mpp_count }} missing in {{ state_label }}
-                    {% endblocktranslate %}
-                    {% comment %}TODO: ERASE_ME
-                    Van 892 desaparecidos en Morelos
-                    {% endcomment %}
-                </a>
-            </h1>
-            <div class="post-des">
+            <div style="margin-top: 20px;" class="post-des">
                 <p>
                     {% blocktranslate with state_label=state.label %}
-                    This website counts how many people have been reported missing in {{ state_label }} in total, <b>the
-                    counter updates every 15 minutes</b>, so you can come back later to see if the count has increased.
-                    <b>How does it work?</b> A bot visits the state prosecutor's office website, then extracts the
-                    missing person posters and saves them in a database, this bot runs every few minutes, so it's
+                    This webpage counts how many people have been reported missing in <b>{{ state_label }}</b> in total,
+                    <b>the counter updates every 15 minutes</b>, so you can come back later to see if the count has
+                    increased. <b>How does it work?</b> A bot visits the state prosecutor's office website, then extracts
+                    the missing person posters and saves them in a database, this bot runs every few minutes, so it's
                     possible the next time you open this page you see new data. You can check the FAQ section to find
                     more information about this, or you can check the ABOUT ME section to know more about me.
                     {% endblocktranslate %}
@@ -83,8 +84,8 @@
                     {% endfor %}
                 </div>
             {% empty %}
-            <div class="row">
-                <h2>{% translate "No posts available." %}</h2>
+            <div class="row text-center">
+                <h2>{% translate "No cases available." %}</h2>
             </div>
             {% endfor %}
         </div>
@@ -103,8 +104,7 @@
                                 <img alt="" src="{% static "svg/woman-man.svg" %}" />
                             </a>
                         </div>
-
-                        <div class="post-des  dropcap">
+                        <div class="post-des dropcap">
                             <p>
                                 {% blocktranslate %}
                                 Here you can check the count of all the posters of missing people classified as
@@ -168,378 +168,76 @@
                 <!--box-category-->
                 <div class="box-category">
                     <div class="col-caption">
-                        <span>LIFE STYLE</span>
+                        <span>{% translate "FILTERS" %}</span>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-xs-12">
-                            <article class="category-mid-post">
-                                <div class="post-thumb">
-                                    <a href="single-fullwidth.html">
-                                        <img alt="" src="{% static "images/s7.jpg" %}" />
-                                    </a>
-                                </div>
-                                <h2 class="post-title">
-                                    <a href="single-fullwidth.html">
-                                        The beautiful life.
-                                    </a>
-                                </h2>
-                                <div class="post-meta">
-                                    <span class="post-date">
-                                        Mar 01, 2017
-                                    </span><em>/</em>
-                                    <span class="post-author">
-                                        <a href="#">Super User</a>
-                                    </span>
-                                </div>
-
-                                <div class="post-des dropcap">
-                                    <p>Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Sed porttitor lectus nibh. Sed porttitor lectus nibh. </p>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="col-md-6 col-xs-12">
-                            <ul class="category-list-post">
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}" />
-                                        </a>
-                                    </div>
-
-                                    <h3 class="post-title"><a href="single.html"> Maecenas semper ante sed lectus egestas. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p5.jpg" %}" />
-                                        </a>
-                                    </div>
-
-                                    <h3 class="post-title"><a href="single.html">The beautifull girl.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p7.jpg" %}" />
-                                        </a>
-                                    </div>
-
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/w5.jpg" %}" />
-                                        </a>
-                                    </div>
-
-                                    <h3 class="post-title"><a href="single.html">What The Font</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/w7.jpg" %}" />
-                                        </a>
-                                    </div>
-
-                                    <h3 class="post-title"><a href="single.html"></a>Proin eget tortor risus. </h3>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!--box-category-->
-                <div class="box-category">
-                    <div class="col-caption">
-                        <span>REVIEWS</span>
-                    </div>
-                    <div class="box-review">
-
-                        <div class="swiper-review">
-                            <div class="swiper-next">
-                                NEXT
+                        <div class="col-md-12 col-xs-12">
+                            <div class="post-des dropcap">
+                                <p>
+                                    {% blocktranslate %}
+                                    Using the following forms you can filter the missing person posters by
+                                    <b>specific dates</b> or <b>date ranges</b>.
+                                    {% endblocktranslate %}
+                                </p>
                             </div>
-                            <div class="swiper-prev">
-                                PREV
+                            <div id="respond" class="comment-respond">
+                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
+                                    <a class="filter-link" href=""><span>{% translate "CLICK HERE TO FILTER BY TODAY'S DATE" %}</span><small></small></a>
+                                </h3>
                             </div>
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <article class="review-item">
-                                        <div class="post-thumb">
-                                            <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/s2.jpg" %}" />
-                                            </a>
-                                        </div>
-                                        <div class="review-des">
-                                            <h2><a href="single-gallery1.html">Maecenas semper ante sed lectus egestas.</a></h2>
-
-                                            <div class="post-meta">
-                                                <span class="post-date">
-                                                    Mar 01, 2017
-                                                </span><em>/</em>
-                                                <span class="post-category">
-                                                    <a href="#">Life style</a>
-                                                </span>
+                            <div id="respond" class="comment-respond">
+                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
+                                    <span>{% translate "FILTER BY DATE" %}</span><small></small>
+                                </h3>
+                                <form action="#" method="post" class="comment-form">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="field-item">
+                                                <p class="field-caption">
+                                                    {% translate "Date" %} <span>*</span>
+                                                </p>
+                                                <input id="author" name="author" placeholder="" type="text" value="" tabindex="1">
                                             </div>
                                         </div>
-                                    </article>
-                                </div>
-
-                                <div class="swiper-slide">
-                                    <article class="review-item">
-                                        <div class="post-thumb">
-                                            <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/s5.jpg" %}" />
-                                            </a>
-                                        </div>
-                                        <div class="review-des">
-                                            <h2><a href="single-gallery1.html">Maecenas semper ante sed lectus egestas.</a></h2>
-                                            <div class="post-meta">
-                                                <span class="post-date">
-                                                    Mar 01, 2017
-                                                </span><em>/</em>
-                                                <span class="post-category">
-                                                    <a href="#">Life style</a>
-                                                </span>
+                                    </div>
+                                    <p class="form-submit">
+                                        <input type="submit" class="my-btn my-btn-dark" value="{% translate "FILTER" %}">
+                                    </p>
+                                </form>
+                            </div>
+                            <div id="respond" class="comment-respond">
+                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
+                                    <span>{% translate "FILTER BY DATE RANGE" %}</span> <small>
+                                    </small>
+                                </h3>
+                                <form action="#" method="post" class="comment-form">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field-item">
+                                                <p class="field-caption">
+                                                    {% translate "Date from" %} <span>*</span>
+                                                </p>
+                                                <input id="author" name="author" placeholder="" type="text" value="" tabindex="1">
                                             </div>
                                         </div>
-
-                                    </article>
-                                </div>
-                                <div class="swiper-slide">
-                                    <article class="review-item">
-                                        <div class="post-thumb">
-                                            <a href="single-gallery1.html">
-                                                <img alt="" src="{% static "images/l4.jpg" %}" />
-                                            </a>
-                                        </div>
-                                        <div class="review-des">
-                                            <h2><a href="single-gallery1.html">Maecenas semper ante sed lectus egestas.</a></h2>
-
-                                            <div class="post-meta">
-                                                <span class="post-date">
-                                                    Mar 01, 2017
-                                                </span><em>/</em>
-                                                <span class="post-category">
-                                                    <a href="#">Life style</a>
-                                                </span>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="field-item">
+                                                <p class="field-caption">
+                                                    {% translate "Date to" %} <span>*</span>
+                                                </p>
+                                                <input id="email" name="email" placeholder="" type="text" value="" tabindex="2">
                                             </div>
                                         </div>
+                                    </div>
+                                    <p class="form-submit">
+                                        <input type="submit" class="my-btn my-btn-dark" value="{% translate "FILTER" %}">
 
-                                    </article>
-                                </div>
-
+                                    </p>
+                                </form>
                             </div>
-                            <div class="swiper-pagination"></div>
                         </div>
-
                     </div>
                 </div>
-
-                <!--box-category-->
-                <div class="box-category">
-                    <div class="col-caption">
-                        <span>THE WORLD</span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-xs-12">
-                            <div class="category-mid-post">
-                                <div class="post-thumb">
-                                    <a href="single-thum-large.html">
-                                        <img alt="" src="{% static 'images/w4.jpg' %}" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xs-12">
-                            <div class="category-mid-post-two">
-                                <h2 class="post-title">
-                                    <a href="single-thum-large.html">
-                                        City in the sunshine.
-                                    </a>
-                                </h2>
-                                <div class="post-meta">
-                                    <span class="post-date">
-                                        Mar 01, 2017
-                                    </span><em>/</em>
-                                    <span class="post-category">
-                                        <a href="#">Super User</a>
-                                    </span>
-                                </div>
-
-                                <div class="post-des dropcap">
-                                    <p>Sed porttitor lectus nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et  </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="category-list-post category-list-post-two">
-                        <li>
-                            <div>
-                                <div class="post-thumb">
-                                    <a href="single.html">
-                                        <img alt="" src="{% static "images/w1.jpg" %}" />
-                                    </a>
-                                </div>
-
-                                <h3 class="post-title"><a href="single.html"> Maecenas semper ante sed lectus egestas. </a> </h3>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div class="post-thumb">
-                                    <a href="single.html">
-                                        <img alt="" src="{% static "images/w2.jpg" %}" />
-                                    </a>
-                                </div>
-
-                                <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div class="post-thumb">
-                                    <a href="single.html">
-                                        <img alt="" src="{% static "images/p5.jpg" %}" />
-                                    </a>
-                                </div>
-
-                                <h3 class="post-title"><a href="single.html">The beautifull girl.</a> </h3>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div class="post-thumb">
-                                    <a href="single.html">
-                                        <img alt="" src="{% static "images/p7.jpg" %}" />
-                                    </a>
-                                </div>
-                                <h3 class="post-title"><a href="single.html">What The Font</a> </h3>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-
-                <!--box-category-->
-                <div class="box-category box-category-fix">
-                    <div class="col-caption">
-                        <span>MAGAZINE</span>
-                    </div>
-                    <div class="grids-outer">
-                        <div class="grids">
-                            <div class="grids-item">
-                                <article class="ciz-post">
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <span class="post-format">
-                                                <i class="fa fa-camera"></i>
-                                            </span>
-                                            <img alt="" src="{% static "images/l1.jpg" %}" />
-                                        </a>
-                                    </div>
-                                    <h3 class="post-title">
-                                        <a href="single.html"> Simply dummy text </a>
-                                    </h3>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-
-                                    </div>
-                                    <div class="post-des">
-                                        <p>Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="grids-item">
-                                <article class="ciz-post">
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p1.jpg" %}" />
-                                        </a>
-                                    </div>
-                                    <h3 class="post-title">
-                                        <a href="single.html">First Special News Here.</a>
-                                    </h3>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <div class="post-des">
-                                        <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="grids-item">
-                                <article class="ciz-post">
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/w1.jpg" %}" />
-                                        </a>
-                                    </div>
-                                    <h3 class="post-title">
-                                        <a href="single.html">My writing here.</a>
-                                    </h3>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Mar 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">World</a>
-                                        </span>
-                                    </div>
-                                    <div class="post-des">
-                                        <p>Nulla porttitor accumsan tincidunt. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.</p>
-                                    </div>
-                                </article>
-                            </div>
-
-                            <div class="grids-item">
-                                <article class="ciz-post">
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/w2.jpg" %}" />
-                                        </a>
-                                    </div>
-                                    <h3 class="post-title">
-                                        <a href="single.html">
-                                            The beautiful life.
-                                        </a>
-                                    </h3>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 02, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">World</a>
-                                        </span>
-
-                                    </div>
-                                    <div class="post-des">
-                                        <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. </p>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
             </div>
             <!--colright-->
             <div class="colright">
@@ -551,27 +249,27 @@
                     <div class="social-network">
                         <div class="sn-row">
                             <div class="sn-col">
-                                <div class="sn-item">
+                                <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <i style="color: #ffc252;" class="fa fa-address-card"></i>
+                                        <img src="{% static "svg/amber-alert-mexico-color.svg" %}" alt="{% translate "AMBER alert" %}" srcset="">
                                     </div>
                                     <p>{{ amber_alert_count|humanint }}</p>
                                     <span>{% translate "AMBER Alerts" %}</span>
                                 </div>
                             </div>
                             <div class="sn-col">
-                                <div class="sn-item twitter">
+                                <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <i style="color: #ad00ad;" class="fa fa-address-card"></i>
+                                        <img src="{% static "svg/alba-alert-mexico-color.svg" %}" alt="{% translate "Alba protocol" %}" srcset="">
                                     </div>
                                     <p>{{ alba_protocol_count|humanint }}</p>
                                     <span>{% translate "ALBA Protocols" %}</span>
                                 </div>
                             </div>
                             <div class="sn-col">
-                                <div class="sn-item pinterest">
+                                <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <i style="color: #d60000;" class="fa fa-address-card"></i>
+                                        <img src="{% static "svg/odisea-alert-mexico-color.svg" %}" alt="{% translate "Odisea alert" %}" srcset="">
                                     </div>
                                     <p>{{ odisea_alert_count|humanint }}</p>
                                     <span>{% translate "Odisea Alerts" %}</span>
@@ -602,7 +300,12 @@
 
                 <!--box post by tags-->
                 <div class="col-caption">
-                    <span>{% translate "COUNTIES WITH MOST MISSING PEOPLE" %}</span>
+                    <span>{% translate "TOP COUNTIES" %}</span>
+                </div>
+                <div class="clearfix">
+                    {% blocktrans %}
+                    Counties with most missing person reports are shown here.
+                    {% endblocktrans %}
                 </div>
                 <div class="box-news-by-tags">
                     <ul>
@@ -616,535 +319,65 @@
                                     </a>
                                 </p>
                             </li>
+                        {% empty %}
+                            {% translate "TOP not available." %}
                         {% endfor %}
                     </ul>
                 </div>
 
-                <!--box newsletter-->
+                <!--box trending-->
                 <div class="col-caption">
-                    <span> NEWSLETTER</span>
+                    <span>{% translate "USEFUL LINKS" %}</span>
                 </div>
-                <div class="subcribe-box">
-                    <p class="des">
-                        Enter your email address below to subscribe to my newsletter
-                    </p>
-                    <div class="mc4wp-form-fields">
-                        <p>
-                            <label>Email address: </label>
-                            <input type="email" name="EMAIL" placeholder="Your email address" required="">
-                        </p>
-                        <p>
-                            <input type="submit" value="Subscribe">
-                        </p><div style="display: none;"><input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off"></div><input type="hidden" name="_mc4wp_timestamp" value="1496302723"><input type="hidden" name="_mc4wp_form_id" value="4899"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1">
-                    </div><div class="mc4wp-response"></div>
-                </div>
-
-                <!--box advertisement-->
-                <div class="col-caption">
-                    <span> advertisement</span>
-                </div>
-                <div class="box-ads">
-                    <img alt="" src="{% static "images/ads.jpg" %}" />
-                </div>
-                <!--box tab-->
-                <div class="box-tab">
-                    <div class="tab-caption">
-                        <ul role="tablist">
-                            <li class="active">
-                                <a href="#tab1" role="tab" data-toggle="tab">
-                                    LATEST
+                <div class="box-trending">
+                    <article class="trending-item">
+                        <h3>
+                            <a href="single-gallery.html">
+                                {% translate "Here is a collection of links that may be of your interest." %}
+                            </a>
+                        </h3>
+                    </article>
+                    <ul class="list-trending">
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="{% static "svg/maps/" %}{{ state|lower }}-o.svg">
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#tab2" role="tab" data-toggle="tab">
-                                    POPULAR
+                            </div>
+                            <h3 class="post-title">
+                                <a href="single.html">
+                                    {% blocktranslate with state_label=state.label%}
+                                    Missing people list of {{ state_label }}
+                                    {% endblocktranslate %}
                                 </a>
-                            </li>
-
-                            <li>
-                                <a href="#tab3" role="tab" data-toggle="tab">
-                                    RANDOM
+                            </h3>
+                        </li>
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="{% static "svg/mexican-police.svg" %}">
                                 </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="tab1">
-                            <ul class="list-trending list-tab">
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="single.html">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p4.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">My writing here.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="single.html">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-                            </ul>
-                        </div>
-                        <div role="tabpanel" class="tab-pane " id="tab2">
-                            <ul class="list-trending list-tab">
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="single.html">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p3.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l1.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/l2.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "images/p4.jpg" %}">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">My writing here.</a> </h3>
-                                </li>
-                            </ul>
-                        </div>
-                        <div role="tabpanel" class="tab-pane " id="tab3">
-                            <ul class="list-trending list-tab">
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/p4.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">My writing here.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/l1.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/l2.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/p2.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/l1.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Magazine in the World. </a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/l2.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 01, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="single.html">The World</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Proin eget tortor risus.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/p2.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 05, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Photography</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">Simply dummy text.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/p3.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-                                <li>
-                                    <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="images/p3.jpg">
-                                        </a>
-                                    </div>
-                                    <div class="post-meta">
-                                        <span class="post-date">
-                                            Jun 06, 2017
-                                        </span>
-                                        <em>/</em>
-                                        <span class="post-category">
-                                            <a href="#">Life style</a>
-                                        </span>
-                                    </div>
-                                    <h3 class="post-title"><a href="single.html">City in the sunshine.</a> </h3>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
+                            </div>
+                            <h3 class="post-title">
+                                <a href="single.html">
+                                    {% translate "Prosecutor's Office websites list where posters are extracted." %}
+                                </a>
+                            </h3>
+                        </li>
+                        <li>
+                            <div class="post-thumb">
+                                <a href="single.html">
+                                    <img alt="" src="{% static "svg/api.svg" %}">
+                                </a>
+                            </div>
+                            <h3 class="post-title">
+                                <a href="{% url "counters:mpp-list-create" %}">
+                                    {% translate "Would you like to access this data? Check the API." %}
+                                </a>
+                            </h3>
+                        </li>
+                    </ul>
                 </div>
-
             </div>
             <div class="clearfix"></div>
         </div>

@@ -3,10 +3,10 @@ from django.contrib import admin
 from . import forms, models
 
 
-@admin.register(models.MissingPersonPost)
-class MissingPersonPostAdmin(admin.ModelAdmin):
-    model = models.MissingPersonPost
-    form = forms.MissingPersonPostAdminForm
+@admin.register(models.MissingPersonPoster)
+class MissingPersonPosterAdmin(admin.ModelAdmin):
+    model = models.MissingPersonPoster
+    form = forms.MissingPersonPosterAdminForm
     prepopulated_fields = {
         "slug": ("mp_name",),
     }

@@ -7,8 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from . import choices, managers
 
 
-class MissingPersonPost(models.Model):
-    """Represents a missing person's post."""
+class MissingPersonPoster(models.Model):
+    """Represents a missing person's poster."""
 
     id = models.UUIDField(
         primary_key=True,
@@ -19,7 +19,7 @@ class MissingPersonPost(models.Model):
         _("slug"),
         unique=True,
         help_text=_(
-            "Please enter the slug that will identify this missing person post."
+            "Please enter the slug that will identify this missing person poster."
         ),
     )
     mp_name = models.CharField(
@@ -132,7 +132,7 @@ class MissingPersonPost(models.Model):
         max_length=2,
         blank=True,
         help_text=_(
-            "Please enter the alert or protocol type of this missing person post."
+            "Please enter the alert or protocol type of this missing person poster."
         ),
     )
     po_state = models.CharField(
@@ -144,6 +144,7 @@ class MissingPersonPost(models.Model):
     po_post_url = models.URLField(
         _("prosecutor's office post's URL"),
         max_length=500,
+        blank=True,
         help_text=_(
             "Please enter the URL of the missing person's post located on the "
             "prosecutor's office website."
@@ -171,19 +172,19 @@ class MissingPersonPost(models.Model):
         _("is more than 1 person?"),
         default=False,
         help_text=_(
-            "Please enter wheter the prosecutor's office post includes more than 1 "
+            "Please enter wheter this missing person poster includes more than 1 "
             "person on it."
         ),
     )
 
-    objects = managers.MissingPersonPostManager()
+    objects = managers.MissingPersonPosterManager()
 
     class Meta:
-        verbose_name = _("missing person post")
-        verbose_name_plural = _("missing person posts")
+        verbose_name = _("missing person poster")
+        verbose_name_plural = _("missing person posters")
 
     def __str__(self):
         return self.mp_name
 
     def get_absolute_url(self):
-        return reverse("missing_person_post_detail", kwargs={"slug": self.slug})
+        return reverse("missing_person_poster_detail", kwargs={"slug": self.slug})
