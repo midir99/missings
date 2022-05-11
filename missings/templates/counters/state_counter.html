@@ -347,7 +347,7 @@
                             <h3 class="post-title">
                                 <a href="single.html">
                                     {% blocktranslate with state_label=state.label%}
-                                    Missing people list of {{ state_label }}
+                                    Missing people list of {{ state_label }}.
                                     {% endblocktranslate %}
                                 </a>
                             </h3>
@@ -366,7 +366,7 @@
                         </li>
                         <li>
                             <div class="post-thumb">
-                                <a href="single.html">
+                                <a href="{% url "counters:mpp-list-create" %}">
                                     <img alt="" src="{% static "svg/api.svg" %}">
                                 </a>
                             </div>

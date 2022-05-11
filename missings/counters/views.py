@@ -45,7 +45,6 @@ class CounterView(TemplateView):
         ctx["mpp_count"] = models.MissingPersonPoster.objects.filter_by_loss_date(
             po_state=ctx["state"],
         ).count()
-        ctx["mpp_count"] = 1250
         latest_mpps_by_loss_date = (
             models.MissingPersonPoster.objects.latest_by_loss_date(
                 po_state=ctx["state"],
