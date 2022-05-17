@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load counters_extras iterutils_extras i18n static %}
 
-{% load counters_extras i18n static %}
+{% block metatags %}
+{% if request.GET.autorefresh %}<meta http-equiv="refresh" content="900">{% endif %}
+{% endblock metatags %}
+
+{% block title %}{{ state.label }}{% endblock title %}
 
 {% block main %}
 <div class="wrapper">
@@ -8,14 +13,23 @@
         <article class="big-sticky-post">
             <div class="post-meta">
                 <span class="post-date">
-                    {% translate "All time" %}
+                    {% translate "Last update" %}
                 </span>
                 <span class="post-category">
-                    <a href="#">{% translate "Today" %}</a>
+                    <a
+                        id="updated-at"
+                        data-url="{% url "counters:retrieve_update_counter_updated_at" %}"
+                        data-toggle="tooltip"
+                        data-placement="right"
+                        href="."
+                        title="{% translate "Click here to update the counter" %}"
+                    >
+                        -
+                    </a>
                 </span>
             </div>
             <div class="post-thumb">
-                <a href="single-fullwidth-three-column.html">
+                <a href="#">
                     <img alt="{% translate "Missing people posters collage." %}" src="{% static "images/collages/mx-mor.png" %}"/>
                     <div class="main-counter">
                         <p>
@@ -25,12 +39,24 @@
                                 missing in {{ state_label }}
                                 {% endblocktranslate %}
                             </span>
-
                         </p>
                     </div>
                 </a>
             </div>
-            <div style="margin-top: 20px;" class="post-des">
+            <div class="post-des main-description">
+                <label class="checkbox-inline autorefresh">{% translate "AUTO REFRESH" %}</label>
+                <label class="checkbox-inline">
+                    <input
+                        id="auto-refresh"
+                        type="checkbox"
+                        data-toggle="toggle"
+                        data-size="mini"
+                        data-on="{% translate "ON" %}"
+                        data-off="{% translate "OFF" %}"
+                        data-onstyle="primary"
+                        {% if request.GET.autorefresh %}checked{% endif %}
+                    >
+                </label>
                 <p>
                     {% blocktranslate with state_label=state.label %}
                     This webpage counts how many people have been reported missing in <b>{{ state_label }}</b> in total,
@@ -38,32 +64,30 @@
                     increased. <b>How does it work?</b> A bot visits the state prosecutor's office website, then extracts
                     the missing person posters and saves them in a database, this bot runs every few minutes, so it's
                     possible the next time you open this page you see new data. You can check the FAQ section to find
-                    more information about this, or you can check the ABOUT ME section to know more about me.
+                    more information about this, or you can check the ABOUT ME section to know more about me.<br>
                     {% endblocktranslate %}
                 </p>
             </div>
         </article>
-
-        <!--hightlight news-->
         <div class="tag-news-caption">
             <p class="fixtext">  #{% translate "Latest cases" %}</p>
         </div>
         <div class="tags-three">
-            {% for mpp_list in lastest_mpp_lists %}
+            {% for mpp_list in lastest_mpp_lists|chunked:3 %}
                 <div class="row">
                     {% for mpp in mpp_list %}
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <article class="ciz-post">
                                 <div class="post-thumb">
-                                    <a href="single-gallery.html">
+                                    <a href="#">
                                         <img
-                                            alt="{% translate "{{ mpp.mp_name }}" %}"
+                                            alt="{{ mpp.mp_name }}"
                                             src="{{ mpp.po_poster_url }}"
                                         >
                                     </a>
                                 </div>
                                 <h3 class="post-title">
-                                    <a href="single-gallery.html">{{ mpp.mp_name|truncatechars:25 }}</a>
+                                    <a href="#">{{ mpp.mp_name|truncatechars:25 }}</a>
                                 </h3>
                                 <div class="post-meta">
                                     <span class="post-date">
@@ -89,19 +113,16 @@
             </div>
             {% endfor %}
         </div>
-        <!--cols-->
         <div class="cols">
-            <!--colleft-->
             <div class="colleft">
-                <!--box-category-->
                 <div class="box-category">
                     <div class="col-caption">
                         <span>{% translate "Missings classified by sex" %}</span>
                     </div>
                     <article class="category-big-post">
                         <div class="post-thumb">
-                            <a href="single-audio.html">
-                                <img alt="" src="{% static "svg/woman-man.svg" %}" />
+                            <a href="#">
+                                <img alt="" src="{% static "svg/others/woman-man.svg" %}" />
                             </a>
                         </div>
                         <div class="post-des dropcap">
@@ -122,12 +143,12 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <article class="three-item">
                                     <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "svg/missing-woman.svg" %}" />
+                                        <a href="#">
+                                            <img alt="" src="{% static "svg/others/missing-woman.svg" %}" />
                                         </a>
                                     </div>
                                     <h3 class="text-center">
-                                        <a href="single.html">
+                                        <a href="#">
                                             {{ missing_female_count|humanint }} {% translate "women missing" %}
                                         </a>
                                     </h3>
@@ -136,12 +157,12 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <article class="three-item">
                                     <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" src="{% static "svg/missing-man.svg" %}">
+                                        <a href="#">
+                                            <img alt="" src="{% static "svg/others/missing-man.svg" %}">
                                         </a>
                                     </div>
                                     <h3 class="text-center">
-                                        <a href="single.html">
+                                        <a href="#">
                                             {{ missing_male_count|humanint }} {% translate "missing men" %}
                                         </a>
                                     </h3>
@@ -150,12 +171,12 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <article class="three-item">
                                     <div class="post-thumb">
-                                        <a href="single.html">
-                                            <img alt="" style="color; #222;" src="{% static "svg/missing-unknown.svg" %}" />
+                                        <a href="#">
+                                            <img alt="" src="{% static "svg/others/missing-unknown.svg" %}" />
                                         </a>
                                     </div>
                                     <h3 class="text-center">
-                                        <a href="single.html">
+                                        <a href="#">
                                             {{ missing_other_count|humanint }} {% translate "missing other" %}
                                         </a>
                                     </h3>
@@ -164,8 +185,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--box-category-->
                 <div class="box-category">
                     <div class="col-caption">
                         <span>{% translate "FILTERS" %}</span>
@@ -180,14 +199,16 @@
                                     {% endblocktranslate %}
                                 </p>
                             </div>
-                            <div id="respond" class="comment-respond">
-                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
-                                    <a class="filter-link" href=""><span>{% translate "CLICK HERE TO FILTER BY TODAY'S DATE" %}</span><small></small></a>
+                            <div id="respond1" class="comment-respond">
+                                <h3 id="reply-title1" class="comment-reply-title">
+                                    <a class="filter-link" href="">
+                                        <p class="text-left">{% translate "CLICK HERE TO FILTER BY TODAY'S DATE" %}</p>
+                                    </a>
                                 </h3>
                             </div>
-                            <div id="respond" class="comment-respond">
-                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
-                                    <span>{% translate "FILTER BY DATE" %}</span><small></small>
+                            <div id="respond2" class="comment-respond">
+                                <h3 id="reply-title2" class="comment-reply-title">
+                                    <p class="text-left">{% translate "FILTER BY DATE" %}</p>
                                 </h3>
                                 <form action="#" method="post" class="comment-form">
                                     <div class="row">
@@ -205,10 +226,9 @@
                                     </p>
                                 </form>
                             </div>
-                            <div id="respond" class="comment-respond">
-                                <h3 id="reply-title" class="comment-reply-title" style="text-align: left;">
-                                    <span>{% translate "FILTER BY DATE RANGE" %}</span> <small>
-                                    </small>
+                            <div id="respond3" class="comment-respond">
+                                <h3 id="reply-title3" class="comment-reply-title">
+                                    <p class="text-left">{% translate "FILTER BY DATE RANGE" %}</p>
                                 </h3>
                                 <form action="#" method="post" class="comment-form">
                                     <div class="row">
@@ -239,9 +259,7 @@
                     </div>
                 </div>
             </div>
-            <!--colright-->
             <div class="colright">
-                <!--box social-->
                 <div class="col-caption">
                     <span>{% translate "ALERT COUNT" %}</span>
                 </div>
@@ -251,7 +269,7 @@
                             <div class="sn-col">
                                 <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <img src="{% static "svg/amber-alert-mexico-color.svg" %}" alt="{% translate "AMBER alert" %}" srcset="">
+                                        <img src="{% static "svg/alerts/amber-alert.svg" %}" alt="{% translate "AMBER alert" %}" srcset="">
                                     </div>
                                     <p>{{ amber_alert_count|humanint }}</p>
                                     <span>{% translate "AMBER Alerts" %}</span>
@@ -260,7 +278,7 @@
                             <div class="sn-col">
                                 <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <img src="{% static "svg/alba-alert-mexico-color.svg" %}" alt="{% translate "Alba protocol" %}" srcset="">
+                                        <img src="{% static "svg/alerts/alba-alert.svg" %}" alt="{% translate "Alba protocol" %}" srcset="">
                                     </div>
                                     <p>{{ alba_protocol_count|humanint }}</p>
                                     <span>{% translate "ALBA Protocols" %}</span>
@@ -269,7 +287,7 @@
                             <div class="sn-col">
                                 <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <img src="{% static "svg/odisea-alert-mexico-color.svg" %}" alt="{% translate "Odisea alert" %}" srcset="">
+                                        <img src="{% static "svg/alerts/odisea-alert.svg" %}" alt="{% translate "Odisea alert" %}" srcset="">
                                     </div>
                                     <p>{{ odisea_alert_count|humanint }}</p>
                                     <span>{% translate "Odisea Alerts" %}</span>
@@ -297,22 +315,15 @@
                         </div>
                     </div>
                 </div>
-
-                <!--box post by tags-->
                 <div class="col-caption">
-                    <span>{% translate "TOP COUNTIES" %}</span>
-                </div>
-                <div class="clearfix">
-                    {% blocktrans %}
-                    Counties with most missing person reports are shown here.
-                    {% endblocktrans %}
+                    <span>{% translate "COUNTIES WITH MOST MISSINGS" %}</span>
                 </div>
                 <div class="box-news-by-tags">
                     <ul>
                         {% for missing_from in most_common_missing_from_list %}
                             <li>
                                 <p>
-                                    <a href="single-fullwidth-three-column.html">
+                                    <a href="#">
                                         {% blocktranslate with missing_from_county=missing_from.0 missing_count=missing_from.1  %}
                                         {{ missing_from_county }}, with {{ missing_count }} missing(s)
                                         {% endblocktranslate %}
@@ -324,15 +335,26 @@
                         {% endfor %}
                     </ul>
                 </div>
-
-                <!--box trending-->
+                <div class="col-caption">
+                    <span>{% translate "State with most missings" %}</span>
+                </div>
+                <div class="box-ads">
+                    <img
+                        class="state-with-most-missings"
+                        alt="{{ states_with_most_missing_people.first.0|humanstate }}"
+                        src="{% static "svg/states/" %}{{ states_with_most_missing_people.first.0 }}.svg"
+                    />
+                    {% blocktranslate with state_name=states_with_most_missing_people.first.0|humanstate mp_count=states_with_most_missing_people.first.1|humanint %}
+                        <b>{{ state_name }}</b>, with {{ mp_count }} missing
+                    {% endblocktranslate %}
+                </div>
                 <div class="col-caption">
                     <span>{% translate "USEFUL LINKS" %}</span>
                 </div>
                 <div class="box-trending">
                     <article class="trending-item">
                         <h3>
-                            <a href="single-gallery.html">
+                            <a href="#">
                                 {% translate "Here is a collection of links that may be of your interest." %}
                             </a>
                         </h3>
@@ -340,12 +362,12 @@
                     <ul class="list-trending">
                         <li>
                             <div class="post-thumb">
-                                <a href="single.html">
-                                    <img alt="" src="{% static "svg/maps/" %}{{ state|lower }}-o.svg">
+                                <a href="#">
+                                    <img alt="" src="{% static "svg/states/" %}{{ state }}-o.svg">
                                 </a>
                             </div>
                             <h3 class="post-title">
-                                <a href="single.html">
+                                <a href="#">
                                     {% blocktranslate with state_label=state.label%}
                                     Missing people list of {{ state_label }}.
                                     {% endblocktranslate %}
@@ -354,24 +376,24 @@
                         </li>
                         <li>
                             <div class="post-thumb">
-                                <a href="single.html">
-                                    <img alt="" src="{% static "svg/mexican-police.svg" %}">
+                                <a href="#">
+                                    <img alt="" src="{% static "svg/others/mexican-police.svg" %}">
                                 </a>
                             </div>
                             <h3 class="post-title">
-                                <a href="single.html">
+                                <a href="#">
                                     {% translate "Prosecutor's Office websites list where posters are extracted." %}
                                 </a>
                             </h3>
                         </li>
                         <li>
                             <div class="post-thumb">
-                                <a href="{% url "counters:mpp-list-create" %}">
-                                    <img alt="" src="{% static "svg/api.svg" %}">
+                                <a href="{% url "counters:mpp_list_create" %}">
+                                    <img alt="" src="{% static "svg/others/api.svg" %}">
                                 </a>
                             </div>
                             <h3 class="post-title">
-                                <a href="{% url "counters:mpp-list-create" %}">
+                                <a href="{% url "counters:mpp_list_create" %}">
                                     {% translate "Would you like to access this data? Check the API." %}
                                 </a>
                             </h3>
@@ -381,102 +403,60 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <!--bottom-->
         <div class="bottom">
             <div class="bottom-inner">
                 <div class="bottom-col">
                     <div class="col-caption">
-                        <span>RECENT POST</span>
+                        <span>{% translate "States with most missing people" %}</span>
                     </div>
                     <ul class="recent-post">
-                        <li>
-                            <p><a href="single-gallery.html">	Maecenas semper ante sed lectus egestas.</a></p>
-                        </li>
-                        <li>
-                            <p><a href="single.html">	Proin eget tortor risus.</a></p>
-                        </li>
-
-                        <li>
-                            <p><a href="single-fullwidth-special.html">	The beautifull girl.</a></p>
-                        </li>
-
-                        <li>
-                            <p><a href="single-fullwidth-three-column.html">	Simply dummy text</a></p>
-                        </li>
-
-                        <li>
-                            <p><a href="single-audio.html">	What The Font</a></p>
-                        </li>
+                        {% for swmmp in states_with_most_missing_people %}
+                            <li>
+                                <p>
+                                    <a href="#">
+                                        {% blocktranslate with state_name=swmmp.0|humanstate mp_count=swmmp.1|humanint %}
+                                        {{ state_name }}, with {{ mp_count }} missing
+                                        {% endblocktranslate %}
+                                    </a>
+                                </p>
+                            </li>
+                        {% empty %}
+                            <li>
+                                <p>{% translate "TOP not available." %}</p>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="bottom-col">
                     <div class="col-caption">
-                        <span>TAG CLOUD</span>
+                        <span>{% translate "Check other states" %}</span>
                     </div>
                     <div class="list-tags">
                         <p class="hidden"></p>
-                        <a href="#"> special</a>
-                        <a href="3"> USA</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> Days news</a>
-                        <a href="3"> review</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> max in</a>
-                        <a href="#"> special</a>
-                        <a href="3"> cloud </a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> Lorem text</a>
-                        <a href="3"> review</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> sky blue</a>
-                        <a href="3"> review</a>
-                        <a href="#"> hot news</a>
-                        <a href="#"> ciz themes</a>
-                        <a href="3"> review</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> Lorem text</a>
-                        <a href="3"> review</a>
-                        <a href="#"> spotlight</a>
-                        <a href="#"> sky blue</a>
-                        <a href="3"> review</a>
+                        {% for state_abbr, state_name in state_counter_urls %}
+                        <a href="{% url "counters:state_counter" state_abbr %}"> {{ state_name }}</a>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="bottom-col">
                     <div class="col-caption">
-                        <span>INSTAGRAM</span>
+                        <span>{% translate "States with less missing people" %}</span>
                     </div>
                     <ul class="instagram-pics">
-                        <li>
-                            <a href="#">
-                                <img src="images/i1.jpg" alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/i2.jpg" alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/i3.jpg" alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/i4.jpg" alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/i5.jpg" alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/i6.jpg" alt="" />
-                            </a>
-                        </li>
+                        {% for swlmp in states_with_less_missing_people %}
+                            <li>
+                                <span class="badge label-info badge-count">{{ swlmp.1|humanint }}</span>
+                                <a href="{% url "counters:state_counter" swlmp.0|abbrstate %}">
+                                    <img src="{% static "svg/states/" %}{{ swlmp.0 }}.svg" alt=""/>
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li>
+                                <a href="#">
+                                    {% translate "TOP not available." %}
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="clearfix"></div>

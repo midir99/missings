@@ -22,6 +22,7 @@ class MissingPersonPosterAdmin(admin.ModelAdmin):
         "po_poster_url",
     )
     search_fields = [
+        "id",
         "mp_name",
         "mp_sex",
         "missing_from",
@@ -31,3 +32,9 @@ class MissingPersonPosterAdmin(admin.ModelAdmin):
     ordering = [
         "-po_post_publication_date",
     ]
+
+
+@admin.register(models.Counter)
+class CounterAdmin(admin.ModelAdmin):
+    model = models.Counter
+    list_display = ("updated_at",)

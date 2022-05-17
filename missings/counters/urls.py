@@ -1,76 +1,53 @@
-from django.urls import path, re_path
-from django.views.decorators.cache import cache_page
+from django import urls
+from rest_framework import urlpatterns as drfurlpatterns
 
-from . import views
+from . import patterns, views
 
-DATE_RE = r"\d{4}[-]\d{2}[-]\d{2}"
-STATE_RE = (
-    r"cdmx|"
-    r"ags|"
-    r"bc|"
-    r"bcs|"
-    r"camp|"
-    r"coah|"
-    r"col|"
-    r"chis|"
-    r"chih|"
-    r"dgo|"
-    r"gto|"
-    r"gro|"
-    r"hgo|"
-    r"jal|"
-    r"edomex|"
-    r"mich|"
-    r"mor|"
-    r"nay|"
-    r"nl|"
-    r"oax|"
-    r"pue|"
-    r"qro|"
-    r"qroo|"
-    r"slp|"
-    r"sin|"
-    r"son|"
-    r"tab|"
-    r"tamps|"
-    r"tlax|"
-    r"ver|"
-    r"yuc|"
-    r"zac"
+api_patterns = [
+    urls.path(
+        "api/v1/mpps/",
+        views.mpp_list_create_view,
+        name="mpp_list_create",
+    ),
+    urls.path(
+        "api/v1/mpps/<uuid:pk>/",
+        views.mpp_retrieve_view,
+        name="mpp_retrieve",
+    ),
+    urls.path(
+        "api/v1/counter/updated_at/",
+        views.retrieve_update_counter_updated_at_view,
+        name="retrieve_update_counter_updated_at",
+    ),
+]
+
+api_patterns = drfurlpatterns.format_suffix_patterns(
+    api_patterns,
+    allowed=["json", "api", "html"],
 )
 
-app_name = "counters"
-urlpatterns = [
-    # API views
-    path(
-        "api/v1/mpps/",
-        views.MPPListCreateView.as_view(),
-        name="mpp-list-create",
-    ),
-    path(
-        "api/v1/mpps/<uuid:pk>/",
-        views.MPPRetrieveView.as_view(),
-        name="mpp-retrieve",
-    ),
-    # Template views
-    path(
+template_patterns = [
+    urls.path(
         "",
-        cache_page(60 * 15)(views.TotalCounterView.as_view()),
-        name="home"
+        views.total_counter_view,
+        name="home",
     ),
-    re_path(
-        rf"^(?P<state>{STATE_RE})/$",
-        cache_page(60 * 15)(views.CounterView.as_view()),
-        name="state_counter"
+    urls.re_path(
+        rf"^(?P<state>{patterns.STATE_RE})/$",
+        views.counter_view,
+        name="state_counter",
     ),
-    re_path(
-        rf"^(?P<state>{STATE_RE})/(?P<pub_date>{DATE_RE})/$",
-        cache_page(60 * 15)(views.DateCounterView.as_view()),
+    urls.re_path(
+        rf"^(?P<state>{patterns.STATE_RE})/(?P<date>{patterns.DATE_RE})/$",
+        views.date_counter_view,
         name="state_date_counter",
     ),
-    re_path(
-        rf"^(?P<state>{STATE_RE})/(?P<from_>{DATE_RE})/(?P<to>{DATE_RE})/$",
-        cache_page(60 * 15)(views.DateSpanCounterView.as_view()),
+    urls.re_path(
+        rf"^(?P<state>{patterns.STATE_RE})/(?P<from_>{patterns.DATE_RE})/(?P<to>{patterns.DATE_RE})/$",
+        views.date_span_counter_view,
         name="state_date_span_counter",
     ),
 ]
+
+app_name = "counters"
+urlpatterns = api_patterns + template_patterns

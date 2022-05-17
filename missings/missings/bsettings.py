@@ -43,11 +43,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.flatpages",
+    "django.contrib.humanize",
     # Third-party apps
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
     # Local apps
+    "iterutils.apps.IterUtilsConfig",
     "accounts.apps.AccountsConfig",
     "counters.apps.CountersConfig",
 ]
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = "missings.urls"
@@ -172,6 +175,13 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 SITE_ID = 1
 
+
+# Secure Referer Policy Header
+# https://docs.djangoproject.com/en/4.0/ref/settings/
+
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+
 # Django REST Framework
 # https://www.django-rest-framework.org/api-guide/settings/
 
@@ -194,3 +204,37 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 15,
 }
+
+
+# Django CSP
+# https://django-csp.readthedocs.io/en/latest/configuration.html#configuration-chapter
+
+CSP_DEFAULT_SRC = [
+    "'self'",
+    "code.jquery.com",
+    "cdn.jsdelivr.net",
+    "unpkg.com",
+]
+
+CSP_STYLE_SRC = [
+    "'self'",
+    "fonts.googleapis.com",
+    "cdn.jsdelivr.net",
+    "unpkg.com",
+]
+
+CSP_FONT_SRC = [
+    "'self'",
+    "fonts.googleapis.com",
+    "fonts.gstatic.com",
+    "cdn.jsdelivr.net",
+]
+
+CSP_IMG_SRC = [
+    "'self'",
+    "fiscaliamorelos.gob.mx",
+]
+
+CSP_OBJECT_SRC = [
+    "'self'",
+]

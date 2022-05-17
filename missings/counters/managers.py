@@ -1,8 +1,10 @@
 from django.db import models
-from django.db.models.functions import Coalesce
+from django.db.models import functions
 
 
 class MissingPersonPosterManager(models.Manager):
+    """Custom manager for MissingPersonPoster entities."""
+
     def filter_by_loss_date(
         self, po_state=None, pub_date=None, date_from=None, date_to=None
     ):
@@ -15,7 +17,7 @@ class MissingPersonPosterManager(models.Manager):
         date_to (depending on which are present).
         """
         qs = self.get_queryset().annotate(
-            loss_date=Coalesce("missing_date", "po_post_publication_date")
+            loss_date=functions.Coalesce("missing_date", "po_post_publication_date")
         )
         if po_state:
             qs = qs.filter(po_state=po_state)
@@ -32,10 +34,25 @@ class MissingPersonPosterManager(models.Manager):
 
     def latest_by_loss_date(self, po_state=None):
         qs = self.get_queryset().annotate(
-            loss_date=Coalesce("missing_date", "po_post_publication_date")
+            loss_date=functions.Coalesce("missing_date", "po_post_publication_date")
         )
         if po_state:
             qs = qs.filter(po_state=po_state)
         else:
             qs = qs.all()
         return qs.order_by("-loss_date")
+
+
+class CounterManager(models.Manager):
+    """Custom manager for Counter entities."""
+
+    def get_counter(self):
+        """Returns the first counter in the database."""
+        return self.get_queryset().first()
+
+    def get_updated_at(self):
+        """Returns the updated_at field of the first counter in the database."""
+        counter = self.get_counter()
+        if counter is None:
+            return None
+        return counter.updated_at

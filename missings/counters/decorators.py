@@ -1,7 +1,7 @@
 import datetime
 import functools
 
-from django.core.exceptions import BadRequest
+from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 
 
@@ -16,7 +16,7 @@ def path_params_to_date(**params):
                             pathparamv, params[pathparam]
                         )
                     except ValueError:
-                        raise BadRequest(
+                        raise exceptions.BadRequest(
                             _("Invalid date: %(date)s")
                             % {
                                 "date": pathparamv,

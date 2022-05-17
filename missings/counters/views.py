@@ -1,65 +1,116 @@
-from django.db.models import Count, Q
-from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, permissions
-from utils import iter
+import random
+
+from django.contrib.humanize.templatetags import humanize
+from django.db import models as db_models
+from django.utils import decorators as utils_decorators
+from django.utils.translation import gettext_lazy as _
+from django.views import generic as dj_generic
+from django.views.decorators import cache
+from django_filters import rest_framework as rf_filters
+from rest_framework import generics as rf_generics
+from rest_framework import permissions as rf_permissions
+from rest_framework import renderers as rf_renderers
+from rest_framework import response as rf_response
+from rest_framework import views as rf_views
 
 from . import choices, decorators, filters, models, serializers
 
 
-class MPPListCreateView(generics.ListCreateAPIView):
-    """
-    Use this endpoint to list and create missing person posters.
-    """
-
+class MPPListCreateView(rf_generics.ListCreateAPIView):
     queryset = models.MissingPersonPoster.objects.all()
     serializer_class = serializers.MissingPersonPosterSerializer
     permission_classes = [
-        permissions.DjangoModelPermissionsOrAnonReadOnly,
+        rf_permissions.DjangoModelPermissionsOrAnonReadOnly,
     ]
     filter_backends = [
-        DjangoFilterBackend,
+        rf_filters.DjangoFilterBackend,
     ]
     filterset_class = filters.MissingPersonPosterAPIFilter
+    name = _("List or create missing person posters")
+    description = _("Use this endpoint to list or create missing person posters.")
 
 
-class MPPRetrieveView(generics.RetrieveAPIView):
+mpp_list_create_view = MPPListCreateView.as_view()
+
+
+class MPPRetrieveView(rf_generics.RetrieveAPIView):
     queryset = models.MissingPersonPoster.objects.all()
     serializer_class = serializers.MissingPersonPosterSerializer
     permission_classes = [
-        permissions.AllowAny,
+        rf_permissions.AllowAny,
     ]
+    name = _("Retrieve a single missing person poster by its ID")
+    description = _("Use this endpoint to retrieve missing person posters by its ID.")
 
 
-class TotalCounterView(TemplateView):
+mpp_retrieve_view = MPPRetrieveView.as_view()
+
+
+class RetrieveUpdateCounterUpdatedAtView(rf_views.APIView):
+    queryset = models.Counter.objects.all()
+    permission_classes = [
+        rf_permissions.DjangoModelPermissionsOrAnonReadOnly,
+    ]
+    renderer_classes = [
+        rf_renderers.JSONRenderer,
+        rf_renderers.BrowsableAPIRenderer,
+        rf_renderers.StaticHTMLRenderer,
+    ]
+    name = _("Retrieve or update the updated_at field of the counter")
+    description = _(
+        "Use this endpoint to retrieve or update the updated_at field of the counter."
+    )
+
+    def get(self, request, format=None):
+        updated_at = models.Counter.objects.get_updated_at()
+        if request.accepted_renderer.format == "html":
+            return rf_response.Response(humanize.naturaltime(updated_at))
+
+        return rf_response.Response({"updated_at": updated_at})
+
+    def put(self, request, format=None):
+        counter = models.Counter.objects.get_counter()
+        counter.save()
+        if request.accepted_renderer.format == "html":
+            return rf_response.Response(humanize.naturaltime(counter.updated_at))
+
+        return rf_response.Response({"updated_at": counter.updated_at})
+
+
+retrieve_update_counter_updated_at_view = RetrieveUpdateCounterUpdatedAtView.as_view()
+
+
+class TotalCounterView(dj_generic.TemplateView):
     template_name = "counters/total_counter.html"
 
 
-class CounterView(TemplateView):
+total_counter_view = TotalCounterView.as_view()
+
+
+class CounterView(dj_generic.TemplateView):
     template_name = "counters/state_counter.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["state"] = choices.StateChoices.from_abbr(self.kwargs["state"])
+        ctx["counter_updated_at"] = models.Counter.objects.get_updated_at()
         ctx["mpp_count"] = models.MissingPersonPoster.objects.filter_by_loss_date(
             po_state=ctx["state"],
         ).count()
-        latest_mpps_by_loss_date = (
-            models.MissingPersonPoster.objects.latest_by_loss_date(
-                po_state=ctx["state"],
-            ).values(
-                "mp_name",
-                "circumstances_behind_dissapearance",
-                "missing_from",
-                "po_post_url",
-                "po_poster_url",
-                "loss_date",
-            )[
-                :6
-            ]
-        )
-        ctx["lastest_mpp_lists"] = iter.chunked(latest_mpps_by_loss_date, 3)
+        ctx[
+            "lastest_mpp_lists"
+        ] = models.MissingPersonPoster.objects.latest_by_loss_date(
+            po_state=ctx["state"],
+        ).values(
+            "mp_name",
+            "circumstances_behind_dissapearance",
+            "missing_from",
+            "po_post_url",
+            "po_poster_url",
+            "loss_date",
+        )[
+            :6
+        ]
         ctx["alba_protocol_count"] = models.MissingPersonPoster.objects.filter(
             po_state=ctx["state"],
             alert_type=choices.AlertTypeChoices.ALBA,
@@ -75,7 +126,8 @@ class CounterView(TemplateView):
         ctx[
             "other_uncategorized_alert_count"
         ] = models.MissingPersonPoster.objects.filter(
-            Q(alert_type=choices.AlertTypeChoices.OTHER) | Q(alert_type=""),
+            db_models.Q(alert_type=choices.AlertTypeChoices.OTHER)
+            | db_models.Q(alert_type=""),
             po_state=ctx["state"],
         ).count()
         ctx["missing_female_count"] = models.MissingPersonPoster.objects.filter(
@@ -87,24 +139,52 @@ class CounterView(TemplateView):
             mp_sex=choices.SexChoices.MALE,
         ).count()
         ctx["missing_other_count"] = models.MissingPersonPoster.objects.filter(
-            Q(mp_sex=choices.SexChoices.OTHER) | Q(mp_sex=""),
+            db_models.Q(mp_sex=choices.SexChoices.OTHER) | db_models.Q(mp_sex=""),
             po_state=ctx["state"],
         ).count()
         ctx["most_common_missing_from_list"] = (
             models.MissingPersonPoster.objects.values_list(
                 "missing_from",
             )
-            .annotate(missing_from_count=Count("missing_from"))
+            .annotate(missing_from_count=db_models.Count("missing_from"))
             .filter(
                 po_state=ctx["state"],
             )
             .order_by("-missing_from_count")[1:15]
         )
+        ctx["states_with_most_missing_people"] = (
+            models.MissingPersonPoster.objects.values_list(
+                "po_state",
+            )
+            .annotate(po_state_count=db_models.Count("po_state"))
+            .order_by("-po_state_count")[:5]
+        )
+        ctx["states_with_less_missing_people"] = (
+            models.MissingPersonPoster.objects.values_list(
+                "po_state",
+            )
+            .annotate(po_state_count=db_models.Count("po_state"))
+            .order_by("po_state_count")[:6]
+        )
+        state_counter_urls = list(
+            map(
+                lambda s: (s.abbr(), s.label),
+                choices.StateChoices,
+            )
+        )
+        random.shuffle(state_counter_urls)
+        ctx["state_counter_urls"] = state_counter_urls
         return ctx
 
 
-@method_decorator(decorators.path_params_to_date(pub_date="%Y-%m-%d"), name="dispatch")
-class DateCounterView(TemplateView):
+counter_view = cache.cache_page(60 * 15)(CounterView.as_view())
+
+
+@utils_decorators.method_decorator(
+    decorators.path_params_to_date(pub_date="%Y-%m-%d"),
+    name="dispatch",
+)
+class DateCounterView(dj_generic.TemplateView):
     template_name = "counters/state_date_counter.html"
 
     def get_context_data(self, **kwargs):
@@ -118,7 +198,10 @@ class DateCounterView(TemplateView):
         return ctx
 
 
-@method_decorator(
+date_counter_view = DateCounterView.as_view()
+
+
+@utils_decorators.method_decorator(
     decorators.path_params_to_date(
         **{
             "from_": "%Y-%m-%d",
@@ -127,7 +210,7 @@ class DateCounterView(TemplateView):
     ),
     name="dispatch",
 )
-class DateSpanCounterView(TemplateView):
+class DateSpanCounterView(dj_generic.TemplateView):
     template_name = "counters/state_date_span_counter.html"
 
     def get_context_data(self, **kwargs):
@@ -143,3 +226,6 @@ class DateSpanCounterView(TemplateView):
         ctx["mpp_count"] = mpps.count()
         ctx["mpps"] = models.MissingPersonPoster.objects.latest()
         return ctx
+
+
+date_span_counter_view = DateSpanCounterView.as_view()

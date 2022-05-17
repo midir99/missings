@@ -36,6 +36,42 @@ class StateChoices(models.TextChoices):
     YUCATAN = ("MX-YUC", _("Yucatan"))
     ZACATECAS = ("MX-ZAC", _("Zacatecas"))
 
+    def abbr(self):
+        return {
+            self.CIUDAD_DE_MEXICO: "cdmx",
+            self.AGUASCALIENTES: "ags",
+            self.BAJA_CALIFORNIA: "bc",
+            self.BAJA_CALIFORNIA_SUR: "bcs",
+            self.CAMPECHE: "camp",
+            self.COAHUILA_DE_ZARAGOZA: "coah",
+            self.COLIMA: "col",
+            self.CHIAPAS: "chis",
+            self.CHIHUAHUA: "chih",
+            self.DURANGO: "dgo",
+            self.GUANAJUATO: "gto",
+            self.GUERRERO: "gro",
+            self.HIDALGO: "hgo",
+            self.JALISCO: "jal",
+            self.MEXICO: "edomex",
+            self.MICHOACAN_DE_OCAMPO: "mich",
+            self.MORELOS: "mor",
+            self.NAYARIT: "nay",
+            self.NUEVO_LEON: "nl",
+            self.OAXACA: "oax",
+            self.PUEBLA: "pue",
+            self.QUERETARO: "qro",
+            self.QUINTANA_ROO: "qroo",
+            self.SAN_LUIS_POTOSI: "slp",
+            self.SINALOA: "sin",
+            self.SONORA: "son",
+            self.TABASCO: "tab",
+            self.TAMAULIPAS: "tamps",
+            self.TLAXCALA: "tlax",
+            self.VERACRUZ_DE_IGNACIO_DE_LA_LLAVE: "ver",
+            self.YUCATAN: "yuc",
+            self.ZACATECAS: "zac",
+        }.get(self)
+
     @classmethod
     def from_abbr(cls, abbr):
         return {

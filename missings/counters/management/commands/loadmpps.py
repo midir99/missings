@@ -1,12 +1,13 @@
 import csv
 import datetime
 
-from counters import models
-from django.core.management.base import BaseCommand, CommandError
-from django.utils.text import slugify
+from django.core.management import base
+from django.utils import text
+
+from ... import models
 
 
-class Command(BaseCommand):
+class Command(base.BaseCommand):
     help = "Load missing person posters into the database"
 
     def add_arguments(self, parser):
@@ -48,7 +49,7 @@ class Command(BaseCommand):
         def add_slug(mpp):
             name_len = int(options["slug_max_length"] * 0.75)
             pub_date_len = int(options["slug_max_length"] * 0.25)
-            mpp["slug"] = slugify(
+            mpp["slug"] = text.slugify(
                 mpp["mp_name"][:name_len]
                 + mpp["po_post_publication_date"][:pub_date_len]
             )

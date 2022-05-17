@@ -3832,11 +3832,9 @@ blockquote {
       color: #555;
       margin: -2px 0px 0px 0px; }
 
-
 .filter-link:hover {
-  background-color: #ca2026;
-  outline: none;
-  color: #fff;
+  color: #ca2026;
+  text-decoration: underline;
 }
 
 /* .main-counter {
@@ -3912,4 +3910,25 @@ blockquote {
     line-height: 0.5;
     font-size: 40px;
   }
+}
+
+.main-description {
+  margin-top: 20px;
+}
+
+.autorefresh {
+  background-color: #111;
+  color: #fff;
+  padding: 0px 10px;
+  font-family: "Oswald", serif;
+}
+
+.state-with-most-missings {
+  color: #b00;
+  fill: #b00;
+}
+
+.badge-count {
+  font-family: "Oswald", serif;
+  font-weight: normal;
 }

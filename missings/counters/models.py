@@ -1,7 +1,6 @@
 import uuid
 
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from . import choices, managers
@@ -127,7 +126,7 @@ class MissingPersonPoster(models.Model):
         help_text=_("Please enter whether the missing person has been found or not."),
     )
     alert_type = models.CharField(
-        ("alert type"),
+        _("alert type"),
         choices=choices.AlertTypeChoices.choices,
         max_length=2,
         blank=True,
@@ -186,5 +185,23 @@ class MissingPersonPoster(models.Model):
     def __str__(self):
         return self.mp_name
 
-    def get_absolute_url(self):
-        return reverse("missing_person_poster_detail", kwargs={"slug": self.slug})
+
+class Counter(models.Model):
+    """
+    Represents some data about how frequently the new missing person posters are added.
+    """
+
+    updated_at = models.DateTimeField(
+        _("updated at"),
+        auto_now=True,
+        help_text=_("Please enter the last time this counter was updated."),
+    )
+
+    objects = managers.CounterManager()
+
+    class Meta:
+        verbose_name = _("counter")
+        verbose_name_plural = _("counters")
+
+    def __str__(self):
+        return f"{self.updated_at}"

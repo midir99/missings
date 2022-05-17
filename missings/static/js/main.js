@@ -2,7 +2,7 @@ $(function () {
     "use strict";
 
     // Preload
-    $('#page-loader').delay(600).fadeOut(400, function () {
+    $('#page-loader').delay(300).fadeOut(200, function () {
         $('body').fadeIn();
     });
 
@@ -89,50 +89,50 @@ $(function () {
     }
 
     // Review slider
-    var swiper_review = new Swiper('.swiper-review', {
-        slidesPerView: 'auto',
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        spaceBetween: 10,
-        speed: 500,
-        nextButton: '.swiper-next',
-        prevButton: '.swiper-prev',
-        loop: true
-    });
+    // var swiper_review = new Swiper('.swiper-review', {
+    //     slidesPerView: 'auto',
+    //     pagination: '.swiper-pagination',
+    //     paginationClickable: true,
+    //     spaceBetween: 10,
+    //     speed: 500,
+    //     nextButton: '.swiper-next',
+    //     prevButton: '.swiper-prev',
+    //     loop: true
+    // });
 
     // Gallery slider
-    var swiper = new Swiper('.swiper-gallery', {
-        slidesPerView: 'auto',
-        loop: true,
-        paginationClickable: true,
-        spaceBetween: 10,
-        speed: 500,
-        nextButton: '.swiper-next',
-        prevButton: '.swiper-prev',
-    });
+    // var swiper = new Swiper('.swiper-gallery', {
+    //     slidesPerView: 'auto',
+    //     loop: true,
+    //     paginationClickable: true,
+    //     spaceBetween: 10,
+    //     speed: 500,
+    //     nextButton: '.swiper-next',
+    //     prevButton: '.swiper-prev',
+    // });
 
     // Home slider
-    var swiper_home = new Swiper('.swiper-home', {
-        slidesPerView: 'auto',
-        loop: true,
-        paginationClickable: true,
-        spaceBetween: 10,
-        speed: 500,
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-next',
-        prevButton: '.swiper-prev',
-    });
+    // var swiper_home = new Swiper('.swiper-home', {
+    //     slidesPerView: 'auto',
+    //     loop: true,
+    //     paginationClickable: true,
+    //     spaceBetween: 10,
+    //     speed: 500,
+    //     pagination: '.swiper-pagination',
+    //     nextButton: '.swiper-next',
+    //     prevButton: '.swiper-prev',
+    // });
 
     // Product slider
-    var swiper_product = new Swiper('.swiper-product', {
-        slidesPerView: 'auto',
-        loop: true,
-        paginationClickable: true,
-        spaceBetween: 0,
-        speed: 500,
-        nextButton: '.swiper-next',
-        prevButton: '.swiper-prev',
-    });
+    // var swiper_product = new Swiper('.swiper-product', {
+    //     slidesPerView: 'auto',
+    //     loop: true,
+    //     paginationClickable: true,
+    //     spaceBetween: 0,
+    //     speed: 500,
+    //     nextButton: '.swiper-next',
+    //     prevButton: '.swiper-prev',
+    // });
 
     // Grid pinterest style
     var grid = $('.grid');
@@ -149,6 +149,24 @@ $(function () {
             scrolling: true
         });
     }
+
+    // Updated At
+    let updatedAt = $("#updated-at");
+    if (updatedAt !== undefined) {
+        updatedAt.load(`${updatedAt.attr("data-url")}?format=html`);
+    }
+
+    // Auto reload mode
+    $("#auto-refresh").on("change", function () {
+        window.setTimeout(function() {
+            let autoReloadMode = $("#auto-refresh").prop("checked");
+            if (autoReloadMode) {
+                window.location = ".?autorefresh=1";
+            } else {
+                window.location = ".";
+            }
+        }, 500);
+    });
 });
 
 // Price range slider

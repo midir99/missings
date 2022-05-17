@@ -1,5 +1,6 @@
 from django import template
-from django.templatetags.static import static
+
+from .. import choices
 
 register = template.Library()
 
@@ -7,7 +8,7 @@ register = template.Library()
 @register.filter(is_safe=True)
 def humanint(number):
     """
-    Convert a large integer to a friendly text representation. For example,
+    Converts a large integer to a friendly text representation. For example,
     1_000 becomes 1K,
     1_000_000 becomes 1M,
     etc.
@@ -25,8 +26,18 @@ def humanint(number):
 
 
 @register.filter(is_safe=True)
-def statemap(state):
+def humanstate(state):
     """
-    Returns the URL of the state's map image.
+    Converts a state in ISO code to a friendly representation. For example,
+    MX-MOR becomer Morelos.
     """
-    return static(f"svg/maps/{state}.svg")
+    return choices.StateChoices(state).label
+
+
+@register.filter(is_safe=True)
+def abbrstate(state):
+    """
+    Converts a state in ISO code to a its abbreviated representation. For example,
+    MX-MOR becomer mor.
+    """
+    return choices.StateChoices(state).abbr()
