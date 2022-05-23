@@ -64,7 +64,7 @@
                     increased. <b>How does it work?</b> A bot visits the state prosecutor's office website, then extracts
                     the missing person posters and saves them in a database, this bot runs every few minutes, so it's
                     possible the next time you open this page you see new data. You can check the FAQ section to find
-                    more information about this, or you can check the ABOUT ME section to know more about me.<br>
+                    more information about this, or you can check the <b>About Me</b> section to know more about me.<br>
                     {% endblocktranslate %}
                 </p>
             </div>
@@ -362,12 +362,12 @@
                     <ul class="list-trending">
                         <li>
                             <div class="post-thumb">
-                                <a href="#">
+                                <a href="{% url "counters:mpp_list" view.kwargs.state %}">
                                     <img alt="" src="{% static "svg/states/" %}{{ state }}-o.svg">
                                 </a>
                             </div>
                             <h3 class="post-title">
-                                <a href="#">
+                                <a href="{% url "counters:mpp_list" view.kwargs.state %}">
                                     {% blocktranslate with state_label=state.label%}
                                     Missing people list of {{ state_label }}.
                                     {% endblocktranslate %}
@@ -381,7 +381,7 @@
                                 </a>
                             </div>
                             <h3 class="post-title">
-                                <a href="#">
+                                <a href="{% url "counters:about_po_websites" %}">
                                     {% translate "Prosecutor's Office websites list where posters are extracted." %}
                                 </a>
                             </h3>
@@ -403,65 +403,7 @@
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="bottom">
-            <div class="bottom-inner">
-                <div class="bottom-col">
-                    <div class="col-caption">
-                        <span>{% translate "States with most missing people" %}</span>
-                    </div>
-                    <ul class="recent-post">
-                        {% for swmmp in states_with_most_missing_people %}
-                            <li>
-                                <p>
-                                    <a href="#">
-                                        {% blocktranslate with state_name=swmmp.0|humanstate mp_count=swmmp.1|humanint %}
-                                        {{ state_name }}, with {{ mp_count }} missing
-                                        {% endblocktranslate %}
-                                    </a>
-                                </p>
-                            </li>
-                        {% empty %}
-                            <li>
-                                <p>{% translate "TOP not available." %}</p>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="bottom-col">
-                    <div class="col-caption">
-                        <span>{% translate "Check other states" %}</span>
-                    </div>
-                    <div class="list-tags">
-                        <p class="hidden"></p>
-                        {% for state_abbr, state_name in state_counter_urls %}
-                        <a href="{% url "counters:state_counter" state_abbr %}"> {{ state_name }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="bottom-col">
-                    <div class="col-caption">
-                        <span>{% translate "States with less missing people" %}</span>
-                    </div>
-                    <ul class="instagram-pics">
-                        {% for swlmp in states_with_less_missing_people %}
-                            <li>
-                                <span class="badge label-info badge-count">{{ swlmp.1|humanint }}</span>
-                                <a href="{% url "counters:state_counter" swlmp.0|abbrstate %}">
-                                    <img src="{% static "svg/states/" %}{{ swlmp.0 }}.svg" alt=""/>
-                                </a>
-                            </li>
-                        {% empty %}
-                            <li>
-                                <a href="#">
-                                    {% translate "TOP not available." %}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+        {% links_and_stats %}
     </div>
 </div>
 {% endblock main %}

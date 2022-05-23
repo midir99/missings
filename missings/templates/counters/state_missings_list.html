@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load counters_extras i18n static %}
+
+{% block title %}{{ state.label }}{% endblock title %}
+
+{% block main %}
+<div class="wrapper">
+    <div class="wrap">
+        <div class="sitemap">
+            <div class="sitemap-inner">
+                <a href="{% url "counters:state_counter" view.kwargs.state %}"><i class="fa fa-state"></i>{{ state|humanstate }}</a>
+                <span>	&#9830;</span>
+                <a href=".">{% translate "Missing people list" %}</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="big-page-caption">
+            <p>
+                {% blocktranslate with state_label=state.label%}
+                #List of {{ state_label }}
+                {% endblocktranslate %}
+            </p>
+        </div>
+        <div class="grids-outer">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="box-search-top">
+                        <form action="" method="GET">
+                            <input
+                                type="search"
+                                name="mp_name"
+                                placeholder="{% translate "Search by name..." %}"
+                                value="{{ request.GET.mp_name }}"
+                            >
+                            <button type="submit">{% translate "Search" %}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="grids grids-small">
+                <div class="grid">
+                    {% for mpp in mpp_list %}
+                        <div class="grid-item">
+                            <article class="ciz-post">
+                                <div class="post-thumb">
+                                    <a href="#">
+                                        <img alt="{{ mpp.mp_name }}" src="{{ mpp.po_poster_url }}"/>
+                                    </a>
+                                </div>
+                                <h3 class="post-title">
+                                    <a href="#">{{ mpp.mp_name|truncatechars:25 }}</a>
+                                </h3>
+                                <div class="post-meta">
+                                    <span class="post-date">
+                                        {{ mpp.loss_date }}
+                                    </span>
+                                    {% if mpp.missing_from %}
+                                        <em>/</em>
+                                        <span class="post-category">
+                                            <a href="#">{{ mpp.missing_from|truncatechars:35 }}</a>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="post-des">
+                                    <p>{{ mpp.circumstances_behind_dissapearance|default:_("No details about circumstances behind dissapearance.")|truncatechars:105 }}</p>
+                                </div>
+                            </article>
+                        </div>
+                    {% empty %}
+                    <p class="text-center">{% translate "No posters available." %}</p>
+                    {% endfor %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        {% show_pagination paginator page_obj request.GET %}
+        {% links_and_stats %}
+    </div>
+</div>
+{% endblock main %}

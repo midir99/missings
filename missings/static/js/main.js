@@ -141,6 +141,11 @@ $(function () {
             itemSelector: '.grid-item',
         });
     }
+    grid.imagesLoaded(function () {
+        $(grid).isotope({
+            itemSelector: '.grid-item',
+        });
+    });
 
     // Gallery fancybox
     var fancybox = $('.fancybox');

@@ -1,0 +1,61 @@
+{% load counters_extras i18n static %}
+
+<div class="bottom">
+    <div class="bottom-inner">
+        <div class="bottom-col">
+            <div class="col-caption">
+                <span>{% translate "States with most missing people" %}</span>
+            </div>
+            <ul class="recent-post">
+                {% for swmmp in states_with_most_missing_people %}
+                    <li>
+                        <p>
+                            <a href="#">
+                                {% blocktranslate with state_name=swmmp.0|humanstate mp_count=swmmp.1|humanint %}
+                                {{ state_name }}, with {{ mp_count }} missing
+                                {% endblocktranslate %}
+                            </a>
+                        </p>
+                    </li>
+                {% empty %}
+                    <li>
+                        <p>{% translate "TOP not available." %}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bottom-col">
+            <div class="col-caption">
+                <span>{% translate "Check other states" %}</span>
+            </div>
+            <div class="list-tags">
+                <p class="hidden"></p>
+                {% for state_abbr, state_name in state_counter_urls %}
+                <a href="{% url "counters:state_counter" state_abbr %}"> {{ state_name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="bottom-col">
+            <div class="col-caption">
+                <span>{% translate "States with less missing people" %}</span>
+            </div>
+            <ul class="instagram-pics">
+                {% for swlmp in states_with_less_missing_people %}
+                    <li>
+                        <span class="badge label-info badge-count">{{ swlmp.1|humanint }}</span>
+                        <a href="{% url "counters:state_counter" swlmp.0|abbrstate %}">
+                            <img src="{% static "svg/states/" %}{{ swlmp.0 }}.svg" alt=""/>
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>
+                        <a href="#">
+                            {% translate "TOP not available." %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

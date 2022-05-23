@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load counters_extras i18n static %}
+
+{% block main %}
+<div class="wrapper">
+    <div class="wrap">
+        <div class="about-me">
+            <div class="about-img">
+                <img alt="" src="images/about.jpg" />
+            </div>
+            <h2>{% translate "ABOUT WHERE THE DATA IS TAKEN: PROSECUTOR'S OFFICE WEBSITES" %}</h2>
+            <p class="text-left">
+                {% blocktranslate %}
+                Every missing person poster is taken from the Prosecutor's Office websites of each state of the republic
+                of Mexico via web scraping. Here is a list of the official websites:
+                {% endblocktranslate %}
+            </p>
+
+            <table class="table text-left">
+                <thead>
+                    <th>{% translate "State" %}</th>
+                    <th>{% translate "Amber alerts" %}</th>
+                    <th>{% translate "ALBA protocols" %}</th>
+                    <th>{% translate "Odisea alerts" %}</th>
+                    <th>{% translate "Other alerts" %}</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Morelos</td>
+                        <td>
+                            <a class="link" href="https://fiscaliamorelos.gob.mx/category/alerta-amber/">
+                                https://fiscaliamorelos.gob.mx/category/alerta-amber/
+                            </a>
+                        </td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>
+                            <a class="link" href="https://fiscaliamorelos.gob.mx/cedulas/">
+                                https://fiscaliamorelos.gob.mx/cedulas/
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="text-left">
+                {% blocktranslate %}
+                More states will be added in the future.
+                {% endblocktranslate %}
+            </p>
+        </div>
+        {% links_and_stats %}
+    </div>
+</div>
+{% endblock main %}

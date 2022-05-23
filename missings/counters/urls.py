@@ -47,6 +47,16 @@ template_patterns = [
         views.date_span_counter_view,
         name="state_date_span_counter",
     ),
+    urls.re_path(
+        rf"^(?P<state>{patterns.STATE_RE})/missings/$",
+        views.mpp_list_view,
+        name="mpp_list",
+    ),
+    urls.path(
+        "about-po-websites/",
+        views.about_po_websites_view,
+        name="about_po_websites",
+    )
 ]
 
 app_name = "counters"

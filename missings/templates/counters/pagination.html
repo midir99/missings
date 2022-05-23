@@ -1,0 +1,33 @@
+{% load i18n %}
+
+{% if pagination_required %}
+    <div class="paging-outer">
+        <div class="paging">
+            {% if page_obj.has_previous %}
+                <a
+                    class="prev page-numbers"
+                    href="?page={{ page_obj.previous_page_number }}{{ query_string }}"
+                >
+                    {% translate "Prev" %}
+                </a>
+            {% endif %}
+            {% for i in page_range %}
+                {% if i == page_obj.number %}
+                    <span class="page-numbers current">{{ i }}</span>
+                {% elif i == paginator.ELLIPSIS %}
+                    <span class="page-ellipsis">{{ i }}</span>
+                {% else %}
+                    <a class="page-numbers current" href="?page={{ i }}{{ query_string }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a
+                    class="next page-numbers"
+                    href="?page={{ page_obj.next_page_number }}{{ query_string }}"
+                >
+                    {% translate "Next" %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

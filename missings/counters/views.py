@@ -229,3 +229,41 @@ class DateSpanCounterView(dj_generic.TemplateView):
 
 
 date_span_counter_view = DateSpanCounterView.as_view()
+
+
+class MPPListView(dj_generic.ListView):
+    model = models.MissingPersonPoster
+    context_object_name = "mpp_list"
+    paginate_by = 20
+    template_name = "counters/state_missings_list.html"
+
+    def get_queryset(self):
+        state = choices.StateChoices.from_abbr(self.kwargs["state"])
+        qs = models.MissingPersonPoster.objects.latest_by_loss_date(po_state=state)
+        mp_name = self.request.GET.get("mp_name")
+        if mp_name is not None:
+            qs = qs.filter(mp_name__icontains=mp_name)
+        qs = qs.values(
+            "mp_name",
+            "circumstances_behind_dissapearance",
+            "missing_from",
+            "po_post_url",
+            "po_poster_url",
+            "loss_date",
+        )
+        return qs
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["state"] = choices.StateChoices.from_abbr(self.kwargs["state"])
+        return ctx
+
+
+mpp_list_view = MPPListView.as_view()
+
+
+class AboutPOWebsitesView(dj_generic.TemplateView):
+    template_name = "counters/about_po_websites.html"
+
+
+about_po_websites_view = cache.cache_page(None)(AboutPOWebsitesView.as_view())
