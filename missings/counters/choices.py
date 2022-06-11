@@ -127,11 +127,11 @@ class ComplexionChoices(models.TextChoices):
 class SexChoices(models.TextChoices):
     MALE = ("M", _("Male"))
     FEMALE = ("F", _("Female"))
-    OTHER = ("O", _("Other"))
 
 
 class AlertTypeChoices(models.TextChoices):
     ALBA = ("AL", _("Alba"))
     AMBER = ("AM", _("Amber"))
+    HAS_VISTO_A = ("HV", _("Has visto a...?"))
     ODISEA = ("OD", _("Odisea"))
     OTHER = ("OT", _("Other"))

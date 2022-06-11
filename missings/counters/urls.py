@@ -56,7 +56,7 @@ template_patterns = [
         "about-po-websites/",
         views.about_po_websites_view,
         name="about_po_websites",
-    )
+    ),
 ]
 
 app_name = "counters"

@@ -232,6 +232,7 @@ CSP_FONT_SRC = [
 
 CSP_IMG_SRC = [
     "'self'",
+    "fiscaliaguerrero.gob.mx",
     "fiscaliamorelos.gob.mx",
 ]
 
