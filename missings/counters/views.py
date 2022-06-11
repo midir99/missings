@@ -139,8 +139,8 @@ class CounterView(dj_generic.TemplateView):
             mp_sex=choices.SexChoices.MALE,
         ).count()
         ctx["missing_other_count"] = models.MissingPersonPoster.objects.filter(
-            db_models.Q(mp_sex=choices.SexChoices.OTHER) | db_models.Q(mp_sex=""),
             po_state=ctx["state"],
+            mp_sex="",
         ).count()
         ctx["most_common_missing_from_list"] = (
             models.MissingPersonPoster.objects.values_list(
