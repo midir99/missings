@@ -3938,6 +3938,27 @@ blockquote {
   font-weight: normal;
 }
 
+.alert-label {
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: black;
+  color: white;
+}
+
+.found-label {
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: rgb(59, 89, 152);
+  color: white;
+}
+
+.missing-label {
+  padding-left: 2px;
+  padding-right: 2px;
+  background-color: rgb(187, 0, 0);
+  color: white;
+}
+
 .box-search-top {
   margin-bottom: 50px;
   height: 40px;

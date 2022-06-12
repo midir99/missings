@@ -31,7 +31,7 @@ def humanint(number):
 def humanstate(state):
     """
     Converts a state in ISO code to a friendly representation. For example,
-    MX-MOR becomer Morelos.
+    MX-MOR becomes Morelos.
     """
     return choices.StateChoices(state).label
 
@@ -40,12 +40,21 @@ def humanstate(state):
 def abbrstate(state):
     """
     Converts a state in ISO code to a its abbreviated representation. For example,
-    MX-MOR becomer mor.
+    MX-MOR becomes mor.
     """
     return choices.StateChoices(state).abbr()
 
 
-@register.inclusion_tag("counters/pagination.html")
+@register.filter(is_safe=True)
+def humanalert(alert):
+    """
+    Converts an alert to a friendly representation. For example,
+    AL becomes Alba.
+    """
+    return choices.AlertTypeChoices(alert).label
+
+
+@register.inclusion_tag("counters/components/pagination.html")
 def show_pagination(paginator, page_obj, query_dict=None, page_kwarg="page"):
     ctx = {
         "page_obj": page_obj,
@@ -82,7 +91,7 @@ def get_state_counters_urls():
     )
 
 
-@register.inclusion_tag("counters/links_and_stats.html")
+@register.inclusion_tag("counters/components/links_and_stats.html")
 def links_and_stats():
     cache_timeout = 60 * 15
     states_with_most_missing_people = cache.cache.get_or_set(

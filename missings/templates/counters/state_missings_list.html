@@ -44,12 +44,12 @@
                         <div class="grid-item">
                             <article class="ciz-post">
                                 <div class="post-thumb">
-                                    <a href="#">
+                                    <a href="{{ mpp.po_poster_url }}">
                                         <img alt="{{ mpp.mp_name }}" src="{{ mpp.po_poster_url }}"/>
                                     </a>
                                 </div>
                                 <h3 class="post-title">
-                                    <a href="#">{{ mpp.mp_name|truncatechars:25 }}</a>
+                                    <a href="{{ mpp.po_post_url }}">{{ mpp.mp_name|truncatechars:25 }}</a>
                                 </h3>
                                 <div class="post-meta">
                                     <span class="post-date">
@@ -59,6 +59,21 @@
                                         <em>/</em>
                                         <span class="post-category">
                                             <a href="#">{{ mpp.missing_from|truncatechars:35 }}</a>
+                                        </span>
+                                    {% endif %}
+                                    <em>|</em>
+                                    {% if mpp.alert_type %}
+                                        <span class="post-category">
+                                            <span class="alert-label">{{ mpp.alert_type|humanalert }}</span>
+                                        </span>
+                                    {% endif %}
+                                    {% if mpp.found %}
+                                        <span class="post-category">
+                                            <span class="found-label">{% translate "Found" %}</span>
+                                        </span>
+                                    {% else %}
+                                        <span class="post-category">
+                                            <span class="missing-label">{% translate "Missing" %}</span>
                                         </span>
                                     {% endif %}
                                 </div>
