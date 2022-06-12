@@ -1,4 +1,5 @@
 from django import template
+from django.core import cache
 from django.db import models as db_models
 
 from .. import choices, models
@@ -64,27 +65,43 @@ def show_pagination(paginator, page_obj, query_dict=None, page_kwarg="page"):
     return ctx
 
 
+def get_six_states_with_most_missing_people():
+    return models.MissingPersonPoster.objects.states_with_most_missing_people()[:6]
+
+
+def get_six_states_with_less_missing_people():
+    return models.MissingPersonPoster.objects.states_with_less_missing_people()[:6]
+
+
+def get_state_counters_urls():
+    return tuple(
+        map(
+            lambda s: (s.abbr(), s.label),
+            choices.StateChoices,
+        )
+    )
+
+
 @register.inclusion_tag("counters/links_and_stats.html")
 def links_and_stats():
+    cache_timeout = 60 * 15
+    states_with_most_missing_people = cache.cache.get_or_set(
+        "links_and_stats:states_with_most_missing_people",
+        get_six_states_with_most_missing_people,
+        timeout=cache_timeout,
+    )
+    states_with_less_missing_people = cache.cache.get_or_set(
+        "links_and_stats:states_with_less_missing_people",
+        get_six_states_with_less_missing_people,
+        timeout=cache_timeout,
+    )
+    state_counters_urls = cache.cache.get_or_set(
+        "links_and_stats:state_counter_urls",
+        get_state_counters_urls,
+        timeout=None,
+    )
     return {
-        "states_with_most_missing_people": (
-            models.MissingPersonPoster.objects.values_list(
-                "po_state",
-            )
-            .annotate(po_state_count=db_models.Count("po_state"))
-            .order_by("-po_state_count")[:5]
-        ),
-        "states_with_less_missing_people": (
-            models.MissingPersonPoster.objects.values_list(
-                "po_state",
-            )
-            .annotate(po_state_count=db_models.Count("po_state"))
-            .order_by("po_state_count")[:6]
-        ),
-        "state_counter_urls": list(
-            map(
-                lambda s: (s.abbr(), s.label),
-                choices.StateChoices,
-            )
-        ),
+        "states_with_most_missing_people": states_with_most_missing_people,
+        "states_with_less_missing_people": states_with_less_missing_people,
+        "state_counter_urls": state_counters_urls,
     }

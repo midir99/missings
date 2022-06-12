@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load counters_extras iterutils_extras i18n static %}
+{% load counters_extras humanize iterutils_extras i18n static %}
 
 {% block metatags %}
 {% if request.GET.autorefresh %}<meta http-equiv="refresh" content="900">{% endif %}
@@ -18,13 +18,12 @@
                 <span class="post-category">
                     <a
                         id="updated-at"
-                        data-url="{% url "counters:retrieve_update_counter_updated_at" %}"
                         data-toggle="tooltip"
                         data-placement="right"
                         href="."
                         title="{% translate "Click here to update the counter" %}"
                     >
-                        -
+                        {{ counter_updated_at|naturaltime }}
                     </a>
                 </span>
             </div>
@@ -73,7 +72,7 @@
             <p class="fixtext">  #{% translate "Latest cases" %}</p>
         </div>
         <div class="tags-three">
-            {% for mpp_list in lastest_mpp_lists|chunked:3 %}
+            {% for mpp_list in latest_mpp_lists|chunked:3 %}
                 <div class="row">
                     {% for mpp in mpp_list %}
                         <div class="col-md-4 col-sm-4 col-xs-12">
@@ -177,7 +176,7 @@
                                     </div>
                                     <h3 class="text-center">
                                         <a href="#">
-                                            {{ missing_other_count|humanint }} {% translate "missing other" %}
+                                            {{ missing_uncategorized_sex_count|humanint }} {% translate "missing other" %}
                                         </a>
                                     </h3>
                                 </article>
@@ -272,7 +271,7 @@
                                         <img src="{% static "svg/alerts/amber-alert.svg" %}" alt="{% translate "AMBER alert" %}" srcset="">
                                     </div>
                                     <p>{{ amber_alert_count|humanint }}</p>
-                                    <span>{% translate "AMBER Alerts" %}</span>
+                                    <span>{% translate "AMBER alerts" %}</span>
                                 </div>
                             </div>
                             <div class="sn-col">
@@ -281,7 +280,7 @@
                                         <img src="{% static "svg/alerts/alba-alert.svg" %}" alt="{% translate "Alba protocol" %}" srcset="">
                                     </div>
                                     <p>{{ alba_protocol_count|humanint }}</p>
-                                    <span>{% translate "ALBA Protocols" %}</span>
+                                    <span>{% translate "ALBA protocols" %}</span>
                                 </div>
                             </div>
                             <div class="sn-col">
@@ -290,28 +289,29 @@
                                         <img src="{% static "svg/alerts/odisea-alert.svg" %}" alt="{% translate "Odisea alert" %}" srcset="">
                                     </div>
                                     <p>{{ odisea_alert_count|humanint }}</p>
-                                    <span>{% translate "Odisea Alerts" %}</span>
+                                    <span>{% translate "Odisea alerts" %}</span>
                                 </div>
                             </div>
                             <div class="sn-col">
                                 <div class="sn-item youtube">
                                     <div class="sn-icon">
-                                        <i class="fa fa-address-card"></i>
+                                        <img src="{% static "svg/alerts/hasvistoa-alert.svg" %}" alt="{% translate "Has visto a...? alert" %}" srcset="">
                                     </div>
-                                    <p>{{ other_uncategorized_alert_count|humanint }}</p>
-                                    <span>{% translate "Other alerts" %}</span>
+                                    <p>{{ has_visto_a_alert_count|humanint }}</p>
+                                    <span>{% translate "Has visto a...? alerts" %}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="clearfix">
-                            {% blocktrans %}
+                            {% blocktranslate with other_alert_count=uncategorized_alert_count|humanint %}
+                            <p class="text-center"><i><b>{{ other_alert_count }}</b> uncategorized alerts.</i></p>
                             These are the total counts of all the alerts that have ever been issued. Alerts are
                             classified in <b>4</b> categories: <b><i>AMBER alert</i></b>, <b><i>Alba protocol</i></b>,
                             <b><i>Odisea alert</i></b> and <b><i>Others</i></b>. Some alerts determined as
                             <b><i>Others</i></b> can actually be <b><i>AMBER</i></b>, <b><i>Alba</i></b> or
                             <b><i>Odisea</i></b>, but were labeled as <b><i>Others</i></b> because a fail in the
                             automatic classification process.
-                            {% endblocktrans %}
+                            {% endblocktranslate %}
                         </div>
                     </div>
                 </div>
@@ -341,10 +341,10 @@
                 <div class="box-ads">
                     <img
                         class="state-with-most-missings"
-                        alt="{{ states_with_most_missing_people.first.0|humanstate }}"
-                        src="{% static "svg/states/" %}{{ states_with_most_missing_people.first.0 }}.svg"
+                        alt="{{ state_with_most_missing_people.0|humanstate }}"
+                        src="{% static "svg/states/" %}{{ state_with_most_missing_people.0 }}.svg"
                     />
-                    {% blocktranslate with state_name=states_with_most_missing_people.first.0|humanstate mp_count=states_with_most_missing_people.first.1|humanint %}
+                    {% blocktranslate with state_name=state_with_most_missing_people.0|humanstate mp_count=state_with_most_missing_people.1|humanint %}
                         <b>{{ state_name }}</b>, with {{ mp_count }} missing
                     {% endblocktranslate %}
                 </div>

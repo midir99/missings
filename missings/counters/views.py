@@ -1,11 +1,11 @@
-import random
+import functools
 
 from django.contrib.humanize.templatetags import humanize
+from django.core import cache
 from django.db import models as db_models
 from django.utils import decorators as utils_decorators
 from django.utils.translation import gettext_lazy as _
 from django.views import generic as dj_generic
-from django.views.decorators import cache
 from django_filters import rest_framework as rf_filters
 from rest_framework import generics as rf_generics
 from rest_framework import permissions as rf_permissions
@@ -90,17 +90,14 @@ total_counter_view = TotalCounterView.as_view()
 class CounterView(dj_generic.TemplateView):
     template_name = "counters/state_counter.html"
 
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx["state"] = choices.StateChoices.from_abbr(self.kwargs["state"])
-        ctx["counter_updated_at"] = models.Counter.objects.get_updated_at()
-        ctx["mpp_count"] = models.MissingPersonPoster.objects.filter_by_loss_date(
-            po_state=ctx["state"],
+    def get_mpp_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
         ).count()
-        ctx[
-            "lastest_mpp_lists"
-        ] = models.MissingPersonPoster.objects.latest_by_loss_date(
-            po_state=ctx["state"],
+
+    def get_latest_mpp_lists(self, state):
+        return models.MissingPersonPoster.objects.latest_by_loss_date(
+            po_state=state,
         ).values(
             "mp_name",
             "circumstances_behind_dissapearance",
@@ -111,73 +108,139 @@ class CounterView(dj_generic.TemplateView):
         )[
             :6
         ]
-        ctx["alba_protocol_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_alba_protocol_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             alert_type=choices.AlertTypeChoices.ALBA,
         ).count()
-        ctx["amber_alert_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_amber_alert_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             alert_type=choices.AlertTypeChoices.AMBER,
         ).count()
-        ctx["odisea_alert_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_odisea_alert_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             alert_type=choices.AlertTypeChoices.ODISEA,
         ).count()
-        ctx[
-            "other_uncategorized_alert_count"
-        ] = models.MissingPersonPoster.objects.filter(
-            db_models.Q(alert_type=choices.AlertTypeChoices.OTHER)
-            | db_models.Q(alert_type=""),
-            po_state=ctx["state"],
+
+    def get_has_visto_a_alert_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
+            alert_type=choices.AlertTypeChoices.HAS_VISTO_A,
         ).count()
-        ctx["missing_female_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_uncategorized_alert_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
+            alert_type="",
+        ).count()
+
+    def get_missing_female_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             mp_sex=choices.SexChoices.FEMALE,
         ).count()
-        ctx["missing_male_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_missing_male_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             mp_sex=choices.SexChoices.MALE,
         ).count()
-        ctx["missing_other_count"] = models.MissingPersonPoster.objects.filter(
-            po_state=ctx["state"],
+
+    def get_missing_uncategorized_sex_count(self, state):
+        return models.MissingPersonPoster.objects.filter(
+            po_state=state,
             mp_sex="",
         ).count()
-        ctx["most_common_missing_from_list"] = (
+
+    def get_most_common_missing_from_list(self, state):
+        return (
             models.MissingPersonPoster.objects.values_list(
                 "missing_from",
             )
             .annotate(missing_from_count=db_models.Count("missing_from"))
             .filter(
-                po_state=ctx["state"],
+                po_state=state,
             )
             .order_by("-missing_from_count")[1:15]
         )
-        ctx["states_with_most_missing_people"] = (
-            models.MissingPersonPoster.objects.values_list(
-                "po_state",
-            )
-            .annotate(po_state_count=db_models.Count("po_state"))
-            .order_by("-po_state_count")[:5]
+
+    def get_state_with_most_missing_people(self):
+        return models.MissingPersonPoster.objects.states_with_most_missing_people()[0]
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["state"] = choices.StateChoices.from_abbr(self.kwargs["state"])
+        ctx["counter_updated_at"] = models.Counter.objects.get_updated_at()
+        cache_timeout = 60 * 15
+        ctx["mpp_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:mpp_count:{ctx['state']}",
+            functools.partial(self.get_mpp_count, ctx["state"]),
+            timeout=cache_timeout,
         )
-        ctx["states_with_less_missing_people"] = (
-            models.MissingPersonPoster.objects.values_list(
-                "po_state",
-            )
-            .annotate(po_state_count=db_models.Count("po_state"))
-            .order_by("po_state_count")[:6]
+        ctx["latest_mpp_lists"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:latest_mpp_lists:{ctx['state']}",
+            functools.partial(self.get_latest_mpp_lists, ctx["state"]),
+            timeout=cache_timeout,
         )
-        state_counter_urls = list(
-            map(
-                lambda s: (s.abbr(), s.label),
-                choices.StateChoices,
-            )
+        ctx["alba_protocol_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:alba_protocol_count:{ctx['state']}",
+            functools.partial(self.get_alba_protocol_count, ctx["state"]),
+            timeout=cache_timeout,
         )
-        random.shuffle(state_counter_urls)
-        ctx["state_counter_urls"] = state_counter_urls
+        ctx["amber_alert_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:amber_alert_count:{ctx['state']}",
+            functools.partial(self.get_amber_alert_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["odisea_alert_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:odisea_alert_count:{ctx['state']}",
+            functools.partial(self.get_odisea_alert_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["has_visto_a_alert_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:has_visto_a_alert_count:{ctx['state']}",
+            functools.partial(self.get_has_visto_a_alert_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["uncategorized_alert_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:uncategorized_alert_count:{ctx['state']}",
+            functools.partial(self.get_uncategorized_alert_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["missing_female_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:missing_female_count:{ctx['state']}",
+            functools.partial(self.get_missing_female_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["missing_male_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:missing_male_count:{ctx['state']}",
+            functools.partial(self.get_missing_male_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["missing_uncategorized_sex_count"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:missing_uncategorized_sex_count:{ctx['state']}",
+            functools.partial(self.get_missing_uncategorized_sex_count, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["most_common_missing_from_list"] = cache.cache.get_or_set(
+            f"CounterView:get_context_data:most_common_missing_from_list:{ctx['state']}",
+            functools.partial(self.get_most_common_missing_from_list, ctx["state"]),
+            timeout=cache_timeout,
+        )
+        ctx["state_with_most_missing_people"] = cache.cache.get_or_set(
+            "CounterView:get_context_data:state_with_most_missing_people",
+            self.get_state_with_most_missing_people,
+            timeout=cache_timeout,
+        )
         return ctx
 
 
-counter_view = cache.cache_page(60 * 15)(CounterView.as_view())
+counter_view = CounterView.as_view()
 
 
 @utils_decorators.method_decorator(
@@ -266,4 +329,4 @@ class AboutPOWebsitesView(dj_generic.TemplateView):
     template_name = "counters/about_po_websites.html"
 
 
-about_po_websites_view = cache.cache_page(None)(AboutPOWebsitesView.as_view())
+about_po_websites_view = AboutPOWebsitesView.as_view()

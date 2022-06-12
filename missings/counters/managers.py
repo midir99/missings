@@ -42,6 +42,26 @@ class MissingPersonPosterManager(models.Manager):
             qs = qs.all()
         return qs.order_by("-loss_date")
 
+    def states_with_most_missing_people(self):
+        return (
+            self.get_queryset()
+            .values_list(
+                "po_state",
+            )
+            .annotate(po_state_count=models.Count("po_state"))
+            .order_by("-po_state_count")
+        )
+
+    def states_with_less_missing_people(self):
+        return (
+            self.get_queryset()
+            .values_list(
+                "po_state",
+            )
+            .annotate(po_state_count=models.Count("po_state"))
+            .order_by("po_state_count")
+        )
+
 
 class CounterManager(models.Manager):
     """Custom manager for Counter entities."""

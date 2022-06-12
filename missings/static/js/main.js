@@ -155,12 +155,6 @@ $(function () {
         });
     }
 
-    // Updated At
-    let updatedAt = $("#updated-at");
-    if (updatedAt !== undefined) {
-        updatedAt.load(`${updatedAt.attr("data-url")}?format=html`);
-    }
-
     // Auto reload mode
     $("#auto-refresh").on("change", function () {
         window.setTimeout(function() {

@@ -10,7 +10,7 @@
                 {% for swmmp in states_with_most_missing_people %}
                     <li>
                         <p>
-                            <a href="#">
+                            <a href="{% url "counters:state_counter" swmmp.0|abbrstate %}">
                                 {% blocktranslate with state_name=swmmp.0|humanstate mp_count=swmmp.1|humanint %}
                                 {{ state_name }}, with {{ mp_count }} missing
                                 {% endblocktranslate %}

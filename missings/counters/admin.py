@@ -12,6 +12,7 @@ class MissingPersonPosterAdmin(admin.ModelAdmin):
     }
     list_display = (
         "mp_name",
+        "alert_type",
         "mp_dob",
         "mp_sex",
         "missing_from",

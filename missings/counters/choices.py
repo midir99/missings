@@ -134,4 +134,3 @@ class AlertTypeChoices(models.TextChoices):
     AMBER = ("AM", _("Amber"))
     HAS_VISTO_A = ("HV", _("Has visto a...?"))
     ODISEA = ("OD", _("Odisea"))
-    OTHER = ("OT", _("Other"))
