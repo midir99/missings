@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models import functions
 
+from . import utils
+
 
 class MissingPersonPosterManager(models.Manager):
     """Custom manager for MissingPersonPoster entities."""
@@ -61,6 +63,31 @@ class MissingPersonPosterManager(models.Manager):
             .annotate(po_state_count=models.Count("po_state"))
             .order_by("po_state_count")
         )
+
+    def slug_is_available(self, slug):
+        return self.get_queryset().filter(slug=slug).count() == 0
+
+    def find_best_slug_available(self, mp_name, loss_date=None):
+        slug = utils.create_mpp_slug(mp_name)
+        if self.slug_is_available(slug):
+            return slug
+
+        if loss_date:
+            slug = utils.create_mpp_slug(mp_name, loss_date=loss_date)
+            if self.slug_is_available(slug):
+                return slug
+
+        # We will try to find an available slug 1000 times, if we cannot find it we will
+        # give up (avoid DoS attacks).
+        for _ in range(1000):
+            slug = utils.create_mpp_slug(
+                mp_name,
+                loss_date=loss_date,
+                add_rand_num=True,
+            )
+            if self.slug_is_available(slug):
+                return slug
+        return None
 
 
 class CounterManager(models.Manager):

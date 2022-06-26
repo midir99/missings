@@ -17,6 +17,7 @@ class MissingPersonPoster(models.Model):
     slug = models.SlugField(
         _("slug"),
         unique=True,
+        max_length=50,  # Cannot be less than 50 characters!
         help_text=_(
             "Please enter the slug that will identify this missing person poster."
         ),
@@ -186,7 +187,7 @@ class MissingPersonPoster(models.Model):
         verbose_name_plural = _("missing person posters")
 
     def __str__(self):
-        return self.mp_name
+        return str(self.mp_name)
 
 
 class Counter(models.Model):
