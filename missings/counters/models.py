@@ -50,7 +50,10 @@ class MissingPersonPoster(models.Model):
         choices=choices.ComplexionChoices.choices,
         max_length=2,
         blank=True,
-        help_text=_("Please enter the complexion of the missing person."),
+        help_text=_(
+            "Please enter the complexion of the missing person (see Von Luschan's "
+            "skin color scale for more information)."
+        ),
     )
     mp_sex = models.CharField(
         _("missing person's sex"),

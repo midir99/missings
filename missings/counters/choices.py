@@ -117,11 +117,14 @@ class PhysicalBuildChoices(models.TextChoices):
 
 
 class ComplexionChoices(models.TextChoices):
-    BROWN = ("BR", _("Brown"))
-    LIGHT_BROWN = ("LB", "Light brown")
-    DARK_BROWN = ("DB", "Dark brown")
-    WHITE = ("WH", _("White"))
-    BLACK = ("BL", _("Black"))
+    """Values based on Von Luschan's skin color scale"""
+
+    VERY_LIGHT = ("VL", _("Very light"))
+    LIGHT = ("L", _("Light"))
+    LIGHT_INTERMEDIATE = ("LI", _("Light intermediate"))
+    DARK_INTERMEDIATE = ("DI", _("Dark intermediate"))
+    DARK = ("D", _("Dark"))
+    VERY_DARK = ("VD", _("Very dark"))
 
 
 class SexChoices(models.TextChoices):
