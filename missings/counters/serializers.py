@@ -4,7 +4,6 @@ from . import exceptions, models
 
 
 class MissingPersonPosterSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.MissingPersonPoster
         fields = [
